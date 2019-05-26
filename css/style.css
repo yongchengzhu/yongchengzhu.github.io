@@ -3,10 +3,12 @@
   height: 50px;
 }
 
-.next {
+.slides-navigation a.next {
   background: url('../icons/next.png');
+  right: 20px;
 }
 
-.prev {
+.slides-navigation a.prev {
   background: url('../icons/prev.png');
+  left: 20px;
 }
