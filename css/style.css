@@ -32,12 +32,13 @@
   text-shadow: 0 2px 5px rgba(0,0,0,0.4);
   letter-spacing: 6px;
   font-weight: 100;
+  height: 100px;
 }
 
 .name {
-  font-size: 2em;
+  font-size: 2.5em;
 }
 
-.job {
+.job-titles {
   font-size: 1.5em;
 }
