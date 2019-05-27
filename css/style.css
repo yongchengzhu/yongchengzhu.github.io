@@ -32,7 +32,6 @@
   text-shadow: 0 2px 5px rgba(0,0,0,0.4);
   letter-spacing: 6px;
   font-weight: 100;
-  height: 100px;
 }
 
 .name {
@@ -41,4 +40,30 @@
 
 .job-titles {
   font-size: 1.5em;
+  height: 0;
+}
+
+.section {
+  padding: 100px 0;
+}
+
+#about-name {
+  padding-bottom: 2rem;
+  font-size: 2.5em;
+  font-weight: bold;
+}
+
+.about-text {
+  font-family: "Open Sans";
+  opacity: 0.87;
+}
+
+.about-desc {
+  font-size: 1.3em;
+  color: #212121;
+}
+
+#email {
+  color: #004eeb;
+  font-weight: 600;
 }
