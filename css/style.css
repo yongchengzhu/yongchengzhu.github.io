@@ -1,3 +1,4 @@
+/* Sliders */
 .next, .prev {
   width: 50px;
   height: 50px;
@@ -43,27 +44,33 @@
   height: 0;
 }
 
+/* Section */
 .section {
   padding: 100px 0;
 }
 
-#about-name {
+.section-header {
   padding-bottom: 2rem;
   font-size: 2.5em;
   font-weight: bold;
 }
 
-.about-text {
+.section-text {
   font-family: "Open Sans";
   opacity: 0.87;
 }
 
-.about-desc {
+.section-sub {
   font-size: 1.3em;
-  color: #212121;
 }
 
-#email {
+.email {
   color: #004eeb;
   font-weight: 600;
+}
+
+/* Technical Skills Section */
+#skills {
+  background-color: black;
+  color: white;
 }
