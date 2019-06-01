@@ -133,12 +133,18 @@
   padding: 15px;
 }
 
+.square-item {
+  position: relative;
+  width: 100%;
+  /* Half of icon's font size (3em) */
+  padding-top: 1.5em;
+}
+
 .square-item-container {
   position: relative;
   /* center this relative positioned div. */
   left: 50%;
   transform: translateX(-50%);
-  /* 1:1 ratio. padding-top percentage is the width percentage of parent. */
   width: 80%;
   padding-top: 80%;
   border: 2px solid black;
@@ -166,4 +172,15 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.square-icon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+i {
+  font-size: 3em;
 }
