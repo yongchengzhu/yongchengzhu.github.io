@@ -114,3 +114,21 @@
 }
 
 /* Stats Section */
+.square-col {
+  padding: 15px;
+}
+
+.square-item-container {
+  width: 100%;
+  /* padding-top is assigned 100% width of parent div. (Equal to width 100%) */
+  padding-top: 100%;
+  border: 2px solid black;
+  border-top: none;
+}
+
+.square-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
