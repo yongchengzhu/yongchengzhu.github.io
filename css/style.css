@@ -119,9 +119,13 @@
 }
 
 .square-item-container {
-  width: 100%;
-  /* padding-top is assigned 100% width of parent div. (Equal to width 100%) */
-  padding-top: 100%;
+  position: relative;
+  /* center this relative positioned div. */
+  left: 50%;
+  transform: translateX(-50%);
+  /* 1:1 ratio. padding-top percentage is the width percentage of parent. */
+  width: 80%;
+  padding-top: 80%;
   border: 2px solid black;
   border-top: none;
 }
