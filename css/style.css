@@ -77,6 +77,21 @@
   color: white;
 }
 
+#skills-title-container {
+  position: relative;
+}
+
+#skills-title:after {
+  content: '';
+  color: white;
+  position: absolute;
+  width: 15%;
+  border-bottom: 2px solid white;
+  left: 50%;
+  bottom: 20%;
+  transform: translateX(-50%);
+}
+
 .chart {
   display: inline-block;
   width: 152px;
@@ -101,7 +116,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1.5em;
+  font-size: 2em;
   font-weight: 600;
 }
 
@@ -128,6 +143,22 @@
   padding-top: 80%;
   border: 2px solid black;
   border-top: none;
+}
+
+.square-item-container:before, .square-item-container:after {
+  position: absolute;
+  top: 0;
+  content: '';
+  width: 30%;
+  border-top: 2px solid black;
+}
+
+.square-item-container:before {
+  left: 0;
+}
+
+.square-item-container:after {
+  right: 0;
 }
 
 .square-content {
