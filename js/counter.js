@@ -3,11 +3,16 @@ let   counted = false;
 
 console.log("counterTopOffset: " + counterTopOffset);
 
-$('.counter').each(function() {
-  const element = $(this);
+if (!counted) {
+  $('.counter').each(function() {
+    const element = $(this);
 
-  element.countup(parseInt(element.text()));
-});
+    element.countup(parseInt(element.text()));
+  });
+
+  counted = true;
+}
+
 
 $(window).on('scroll', () => {
   if (!counted && window.pageYOffset + window.innerHeight > counterTopOffset) {
