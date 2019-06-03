@@ -48,11 +48,12 @@
 
 /* Navbar */
 .navbar {
-  background-color: black!important;
+  background-color: #000a12!important;
+  padding: 10px 40px;
 }
 
 .nav-item {
-  margin: 0px 5px;
+  margin: 0px 10px;
 }
 
 /* Sections */
@@ -82,7 +83,7 @@
 
 /* Technical Skills Section */
 #skills {
-  background-color: black;
+  background-color: #263238;
   color: white;
 }
 
@@ -192,4 +193,13 @@
 
 i {
   font-size: 3em;
+}
+
+/* Divider */
+hr {
+  border: 0;
+  width: 80%;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
 }
