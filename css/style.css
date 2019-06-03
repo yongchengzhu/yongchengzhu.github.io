@@ -47,6 +47,13 @@
 }
 
 /* Navbar */
+.navbar {
+  background-color: black!important;
+}
+
+.nav-item {
+  margin: 0px 5px;
+}
 
 /* Sections */
 .section {
