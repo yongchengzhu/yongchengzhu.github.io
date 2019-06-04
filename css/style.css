@@ -50,6 +50,7 @@
 .navbar {
   background-color: #000a12!important;
   padding: 10px 40px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 .nav-item {
@@ -161,6 +162,10 @@
   border-top: none;
 }
 
+.square-item-container:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
 .square-item-container:before, .square-item-container:after {
   position: absolute;
   top: 0;
@@ -202,4 +207,34 @@ hr {
   height: 1px;
   background: #333;
   background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
+/* Projects Section */
+#projects {
+  padding: 50px 0;
+}
+
+.project-img {
+  width: 100%;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.project-title {
+  font-size: 1.7em;
+  margin: 10px 0;
+}
+
+.project-date {
+  font-style: italic;
+  color: #808080;
+  font-size: 1.1em;
+}
+
+.project-techs {
+  font-weight: 600;
+}
+
+.btn {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  margin-right: 10px;
 }
