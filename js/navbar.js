@@ -15,4 +15,12 @@ function setFixedTop(windowTopOffset, navbarTopOffset) {
   } else {
     document.querySelector('.navbar').classList.remove("fixed-top");
   }
-}
+};
+
+const navlinkNodeList = document.querySelectorAll('a.nav-link');
+
+navlinkNodeList.forEach(navlink => {
+  navlink.addEventListener('click', (e) => {
+    e.preventDefault();
+  });
+});
