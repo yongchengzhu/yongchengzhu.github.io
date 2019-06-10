@@ -22,5 +22,16 @@ const navlinkNodeList = document.querySelectorAll('a.nav-link');
 navlinkNodeList.forEach(navlink => {
   navlink.addEventListener('click', (e) => {
     e.preventDefault();
+
+    const targetId  = navlink.getAttribute('href');
+    const targetPos = document.querySelector(targetId).offsetTop;
+    const navbarHeight = document.querySelector('.navbar').clientHeight;
+    const scrollPos = targetPos - navbarHeight;
+
+    window.scroll({
+      top: scrollPos,
+      left: 0,
+      behavior: 'smooth'
+    })
   });
 });
