@@ -5,11 +5,13 @@ function fadeOutEffect() {
     const fadeLoader = setInterval(function () {
         if (!loader.style.opacity) {
             loader.style.opacity = 1;
+            loader.style.zIndex = 999;
         }
         if (loader.style.opacity > 0) {
             loader.style.opacity -= 0.1;
         } else {
             clearInterval(fadeLoader);
+            loader.style.zIndex = -999;
         }
     }, 75);
 

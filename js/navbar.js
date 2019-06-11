@@ -17,7 +17,7 @@ function setFixedTop(windowTopOffset, navbarTopOffset) {
   }
 };
 
-const navlinkNodeList = document.querySelectorAll('a.nav-link');
+const navlinkNodeList = document.querySelectorAll('a.nav-scroll');
 
 navlinkNodeList.forEach(navlink => {
   navlink.addEventListener('click', (e) => {
