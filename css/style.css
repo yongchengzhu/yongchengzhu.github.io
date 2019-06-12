@@ -267,16 +267,17 @@ hr {
 }
 
 /* Leetcodes Section */
-#leetcodes {
+.post-container {
   margin-top: 50px;
 }
 
 .post-title {
-  color: #212529;
+  color: #607D8B;
   font-family: "Open Sans";
   opacity: 0.87;
   font-size: 2em;
   font-weight: 700;
+  /* text-shadow: 0px 1px 0.3px #000; */
 }
 
 .post-title:hover {
