@@ -270,3 +270,24 @@ hr {
 #leetcodes {
   margin-top: 50px;
 }
+
+.post-title {
+  color: #212529;
+  font-family: "Open Sans";
+  opacity: 0.87;
+  font-size: 2em;
+  font-weight: 700;
+}
+
+.post-title:hover {
+  color: #212529;
+  text-decoration: none;
+}
+
+.leetcode-topics {
+  font-size: 1.2em;
+}
+
+.leetcode-item {
+  padding: 0 100px;
+}
