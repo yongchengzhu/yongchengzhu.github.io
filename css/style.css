@@ -266,8 +266,7 @@ hr {
   margin-top: 50px;
 }
 
-/* Leetcodes Sections */
-#leetcode-header {
-  position: absolute;
-  margin: 0 auto;
+/* Leetcodes Section */
+#leetcodes {
+  margin-top: 50px;
 }
