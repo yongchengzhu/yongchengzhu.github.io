@@ -265,3 +265,9 @@ hr {
 .project-row {
   margin-top: 50px;
 }
+
+/* Leetcodes Sections */
+#leetcode-header {
+  position: absolute;
+  margin: 0 auto;
+}
