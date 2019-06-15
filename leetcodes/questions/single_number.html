@@ -88,7 +88,8 @@
             in the hashset, then add it inside. Otherwise, remove the existing
             integer inside the hashset. By the end of the loop, the hashset
             should have one integer remaining inside, and that's the answer
-            we are looking for.
+            we are looking for. This algorithm works just like the children
+            card game, Old Maid.
           </p>
 
           <pre>
@@ -116,7 +117,37 @@
           </p>
 
           <p class="section-text">
+            To answer the follow up question, we can make use of the behavior
+            of the bitwise XOR operator on the integers. We can ignore how
+            the XOR of two integers is evaluated. We just need imagine that,
+            when we XOR multiple distinct integers, it forms a chain (acts
+            just like a space but without costing any space):
+            $$A \oplus B \oplus C \oplus \cdots$$
+            And, if there are duplicate integers within the chain, then:
+            $$A \oplus B \oplus C \oplus B = A \oplus C$$
+            As we can see, the duplicated integers get canceled out.
+            Hence, we can use this behavior to find the non-duplicated integer
+            in our problem. Take <em>Example 2</em>, we get
+            $$4 \oplus 1 \oplus 2 \oplus 1 \oplus 2 = 4$$
+            Finally, here is the obvious code.
+          </p>
 
+          <pre>
+            <code class="language-javascript">
+              var singleNumber = function(nums) {
+                  let chain = 0;
+
+                  for (let i = 0; i < nums.length; ++i) {
+                      chain = chain ^ nums[i];
+                  }
+
+                  return chain;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            This satisfies linear time and linear space complexities.
           </p>
         </div>
       </div>
