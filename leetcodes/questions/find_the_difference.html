@@ -114,6 +114,40 @@
             This algorithm runs in linear time complexity, but takes \(O(n)\)
             space complexity.
           </p>
+
+          <p class="section-text">
+            But, what if we want to do better, and use \(O(1)\) space? Recall
+            that characters can be converted to ASCII integers. Then, we can
+            do simple arithmetics to find the <em>difference</em> of \(s\) and
+            \(t\). Simply, convert the letters of both \(s\) and \(t\) into
+            ASCII integers and calculate the sum for both. If we calculate
+            the difference of \(\sum_{}^{}t - \sum_{}^{}s\), we should get
+            the ASCCII integer of the extra letter in \(t\). Finally, just
+            convert the resulting ASCII into a character and we have the letter.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var findTheDifference = function(s, t) {
+                  sSum = 0;
+                  tSum = 0;
+
+                  for (let letter of s) {
+                      sSum += letter.charCodeAt(0);
+                  }
+
+                  for (let letter of t) {
+                      tSum += letter.charCodeAt(0);
+                  }
+
+                  return String.fromCharCode(tSum - sSum);
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Now we have achieved \(O(1)\) time and \(O(1)\) space complexities.
+         </p>
         </div>
       </div>
     </div>
