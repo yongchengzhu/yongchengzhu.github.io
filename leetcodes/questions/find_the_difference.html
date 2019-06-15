@@ -74,7 +74,45 @@
       <div class="row">
         <div class="col-12">
           <p class="section-text">
-            
+            Since the letters can be duplicated, we cannot store them inside of
+            a hashset, hence we will use hashtable. It's a good idea to map
+            each letter with their amount of occurences inside of the
+            hashtable. We have a choice here, which is to choose whether we
+            should map \(s\) or \(t\) into the hashtable (or both). By
+            intuition, we should map \(t\) because it has more letters, and
+            \(s\) is a subset of \(t\). Hence, in the second loop, we can
+            decrement the occurences of the letters in \(t\) by the letters that
+            appear inside of \(s\). At the end of this loop, the hashtable should
+            be left with a single letter that has an occurence of 1, while all
+            other letters have occurence of 0. The letter that has the occurence
+            of 1 is the letter we are looking for.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var findTheDifference = function(s, t) {
+                  let table = {};
+
+                  for (let letter of t) {
+                      table[letter] = (table[letter] || 0) + 1;
+                  }
+
+                  for (let letter of s) {
+                      table[letter]--;
+                  }
+
+                  for (let key in table) {
+                      if (table[key]) {
+                          return key;
+                      }
+                  }
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            This algorithm runs in linear time complexity, but takes \(O(n)\)
+            space complexity.
           </p>
         </div>
       </div>
