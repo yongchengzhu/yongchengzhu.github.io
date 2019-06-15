@@ -82,10 +82,10 @@
           <p class="section-text">
             The most straightforward approach for me was to store all the
             integers from the input array into a hashset. Then, loop through
-            all the possible integers (0 to the size of hashset + 1; because we
-            there's a missing integer). Finally, for each loop iteration, check
-            to see if the current integer is inside the hashset. If not, then
-            we found the number.
+            all the possible integers (0 to the size of the hashset + 1; because
+            we know there's a missing integer). Finally, for each loop
+            iteration, check to see if the current integer is inside the
+            hashset. If not, then we found the number.
             <pre>
               <code class="language-javascript">
                 var missingNumber = function(nums) {
@@ -108,7 +108,31 @@
           </p>
           <p>
             To answer the follow up question, we have to abandon the usage of
-            hashset.
+            hashset. It's easy to recognize that we are essentially trying
+            to calculate
+            $$\sum_{0}^{n+1}i - X = Y$$
+            where \(n\) is the size of the input array, \(X\) is the missing
+            number, and \(Y\) is the sum of the all the integers in the input
+            array. Recall that \(\sum_{1}^{n}i = \frac{n(n+1)}{2} =
+            \sum_{0}^{n+1}i\). Now we can rewrite the equation to calculate for
+            \(X\).
+            $$X = \frac{n(n+1)}{2} - Y $$
+            <pre>
+              <code class="language-javascript">
+                var missingNumber = function(nums) {
+                    const n = nums.length;
+                    let Y   = 0;
+
+                    for(let i = 0; i < nums.length; ++i) {
+                        Y += nums[i];
+                    }
+
+                    return (n*(n+1))/2 - Y;
+                };
+              </code>
+            </pre>
+            At last, this algorithm satifies both linear time and linear space
+            complexities.
           </p>
         </div>
       </div>
@@ -117,5 +141,6 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
   </body>
 </html>
