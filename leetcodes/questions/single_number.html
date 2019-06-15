@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Single Number</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="../../index.html">Yongcheng Zhu</a>
+
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-contents">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbar-contents">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Leetcode Solutions</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">136. Single Number</h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given a <strong>non-empty</strong> array of integers, every
+              element appears except for one. Find that single one.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Note:</span>
+              Your algorithm should have a linear runtime complexity. Could you
+              implement it without using extra memory?Your algorithm should run
+              in linear runtime complexity. Could you implement it using only
+              constant extra space complexity?
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example 1:</span>
+              <div class="example">
+                <div class="example-item">
+                  <span class="example-io section-text">Input: </span>
+                  <span class="section-text">[2, 2, 1]</span>
+                </div>
+                <div class="example-item">
+                  <span class="example-io section-text">Output: </span>
+                  <span class="section-text">1</span>
+                </div>
+              </div>
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example 2:</span>
+              <div class="example">
+                <div class="example-item">
+                  <span class="example-io section-text">Input: </span>
+                  <span class="section-text">[4,1,2,1,2]</span>
+                </div>
+                <div class="example-item">
+                  <span class="example-io section-text">Output: </span>
+                  <span class="section-text">4</span>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            The most straightforward way is to loop through the input array,
+            and check if each integer is in the hashset. If it doesn't exist
+            in the hashset, then add it inside. Otherwise, remove the existing
+            integer inside the hashset. By the end of the loop, the hashset
+            should have one integer remaining inside, and that's the answer
+            we are looking for.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var singleNumber = function(nums) {
+                  let set = new Set([]);
+
+                  for (let i = 0; i < nums.length; ++i) {
+                      if (!set.has(nums[i])) {
+                          set.add(nums[i]);
+                      } else {
+                          set.delete(nums[i]);
+                      }
+                  }
+
+                  for (let value of set) {
+                      return value;
+                  }
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            This algorithm has linear runtime, but \(O(n)\) space complexity.
+          </p>
+
+          <p class="section-text">
+
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
