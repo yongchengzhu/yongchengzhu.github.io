@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Linked List Cycle</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="../../index.html">Yongcheng Zhu</a>
+
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-contents">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbar-contents">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Leetcode Solutions</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">141. Linked List Cycle</h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given a linked list, determine if it has a cycle in it.
+            </p>
+            <p class="section-text problem-text">
+              To represent a cycle in the given linked list, we use an integer
+              pos which represents the position (0-indexed) in the linked list
+              where tail connects to. If pos is -1, then there is no cycle in
+              the linked list.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example 1:</span>
+              <div class="example">
+                <div class="example-item">
+                  <span class="section-text example-io">Input: </span>
+                  <span class="section-text">head = [3,2,0,-4], pos = 1</span>
+                </div>
+                <div class="example-item">
+                  <span class="section-text example-io">Output: </span>
+                  <span class="section-text">true</span>
+                </div>
+                <div class="example-item">
+                  <span class="section-text example-io">Explanation: </span>
+                  <span class="section-text">
+                    There is a cycle in the linked list
+                    , where tail connects to the second node.
+                  </span>
+                </div>
+                <img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png" style="margin-top: 30px; width: 300px; height: auto;">
+              </div>
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example 2:</span>
+              <div class="example">
+                <div class="example-item">
+                  <span class="section-text example-io">Input: </span>
+                  <span class="section-text">head = [1,2], pos = 0</span>
+                </div>
+                <div class="example-item">
+                  <span class="section-text example-io">Output: </span>
+                  <span class="section-text">true</span>
+                </div>
+                <div class="example-item">
+                  <span class="section-text example-io">Explanation: </span>
+                  <span class="section-text">
+                    There is a cycle in the linked list, where tail connects to
+                    the first node.
+                  </span>
+                </div>
+                <img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test2.png" style="margin-top: 30px; width: 141px; height: auto;">
+              </div>
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example 3:</span>
+              <div class="example">
+                <div class="example-item">
+                  <span class="section-text example-io">Input: </span>
+                  <span class="section-text">head = [1], pos = -1</span>
+                </div>
+                <div class="example-item">
+                  <span class="section-text example-io">Output: </span>
+                  <span class="section-text">false</span>
+                </div>
+                <div class="example-item">
+                  <span class="section-text example-io">Explanation: </span>
+                  <span class="section-text">
+                    There is no cycle in the linked list.
+                  </span>
+                </div>
+                <img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist_test3.png" style="margin-top: 30px; width: 45px; height: auto;">
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
