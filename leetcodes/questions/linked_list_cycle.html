@@ -117,7 +117,76 @@
       <div class="row">
         <div class="col-12">
           <p class="section-text">
+            A simple approach is to use a hashset to keep track of all the
+            visited nodes so far. If we see the same node again, then that means
+            there is a cycle. Otherwise, there is no cycle.
+          </p>
 
+          <pre>
+            <code class="language-javascript">
+              var hasCycle = function(head) {
+                  let set     = new Set([]);
+                  let current = head;
+
+                  while (true) {
+                      if (!current) {
+                          break;
+                      }
+
+                      if (!set.has(current)) {
+                          set.add(current);
+                      } else {
+                          return true;
+                      }
+
+                      current = current.next;
+                  }
+
+                  return false;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            And as usual, using a hashset yields \(O(n)\) runtime and \(O(n)\)
+            extra space.
+          </p>
+
+          <p class="section-text">
+            For constant space complexity, we need to create two nodes that
+            start from the head of the linked list. One will travel at one node
+            per iteration, and the other will travel at two nodes per iteration.
+            Hence, if they meet at any point in the future, then that means
+            there is a cycle in this linked list.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var hasCycle = function(head) {
+                  let slow = head;
+                  let fast = head;
+
+                  while (true) {
+                      if (!fast || !fast.next) {
+                          break;
+                      }
+
+                      slow = slow.next;
+                      fast = fast.next.next;
+
+                      if (slow === fast) {
+                          return true;
+                      }
+                  }
+
+                  return false;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Finally, we have reduced linear space to constant space with this
+            approach.
           </p>
         </div>
       </div>
