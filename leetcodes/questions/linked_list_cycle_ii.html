@@ -160,6 +160,60 @@
             As per usual, hashset approach yields both linear runtime and
             linear extra space complexities.
           </p>
+
+          <p class="section-text">
+            If we want to improve the space complexity, then we can use Floyd's
+            algorithm, which involes two steps. First, is to set up a slow and
+            a fast pointer and let them travel through the linked list. If there
+            is a cycle, then, we know the node at which they met. Next, set up
+            two new pointers, one starting at the head of the linked list, and
+            another pointer starting at the node at which the fast and slow nodes
+            met. Both of these new pointers will travel one nodes per iteration,
+            the node at which they meet will be the starting position of the cycle.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var detectCycle = function(head) {
+                  let slow = head;
+                  let fast = head;
+                  let start = null;
+                  let meet  = null;
+
+                  while (true) {
+                      if (!fast || !fast.next) {
+                          return null;
+                      }
+
+                      slow = slow.next;
+                      fast = fast.next.next;
+
+                      if (slow === fast) {
+                          start = head;
+                          meet = slow;
+                          break;
+                      }
+                  }
+
+                  if (start === meet) {
+                      return start;
+                  }
+
+                  while (true) {
+                      start = start.next;
+                      meet  = meet.next;
+
+                      if (start === meet) {
+                          return meet;
+                      }
+                  }
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            This algorithm satisfies constant space complexity.
+          </p>
         </div>
       </div>
     </div>
