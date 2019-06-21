@@ -325,3 +325,16 @@ hr {
 .example-io {
   font-weight: 600;
 }
+
+@font-face {
+  font-family: "SF-Mono-Font";
+  src: url('./fonts/sfmono-regular-webfont.woff2') format('woff2'),
+       url('./fonts/sfmono-regular-webfont.woff') format('woff'),
+       url('./fonts/sfmono-regular-webfont.ttf') format('truetype');
+}
+
+.tree {
+  white-space: pre-wrap;
+  font-family: "SF-Mono-Font";
+  font-size: 13px;
+}

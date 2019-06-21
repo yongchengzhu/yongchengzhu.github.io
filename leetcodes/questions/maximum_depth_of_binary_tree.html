@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Maximum Depth of Binary Tree</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="../../index.html">Yongcheng Zhu</a>
+
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-contents">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbar-contents">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Leetcode Solutions</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            104. Maximum Depth of Binary Tree
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given a binary tree, find its maximum depth.
+            </p>
+            <p class="section-text problem-text">
+              The maximum depth is the number of nodes along the longest path
+              from the root node down to the farthest leaf node.
+            </p>
+            <p class="section-text problem-text">
+              <strong>Note:</strong> A leaf is a node with no children.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example-item">
+                <div class="section-text">
+                  Given binary tree [3,9,20,null,null,15,7]
+                </div>
+              </div>
+              <div class="example">
+                <div class="example-item">
+                  <div class="tree">
+    3
+   / \
+  9  20
+    /  \
+   15   7
+                  </div>
+                </div>
+              </div>
+              <div class="section-text">
+                return its depth = 3.
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            For this question, we have to implement a DFS either recursively
+            or iteratively. First, let's go with the trivial option, which is
+            to implement DFS recursively.
+          </p>
+          <p class="section-text">
+            For recursions, we have to consider at what point should the
+            recursion terminate and return a value so that the call stack can
+            empty out. The base case usually involves a condition check on the
+            function argument, which in this case it's the tree node. When we
+            iterate down to a null node, we cannot iterate any further hence
+            this is where we should return a value that answers the problem
+            that we're solving which is the maximum depth of the tree. Here,
+            we return 0, because an empty tree has no depth.
+          </p>
+          <p class="section-text">
+            Now that we've taken care of the base case, we have to think about
+            the step before we reach the base case. Imagine we have a single
+            tree node no children. If we run the current DFS on the left and
+            right children, we get back 0 from both recursive calls. Now, how
+            do we calculate the depth so far? It's obvious that the answer is 1,
+            and this can be achieved by adding 1 to the maximum depth returned
+            from the left and right children.
+          </p>
+          <pre>
+            <code class="language-javascript">
+              var maxDepth = function(root) {
+                  if (!root) {
+                      return 0;
+                  }
+
+                  const left  = maxDepth(root.left);
+                  const right = maxDepth(root.right);
+
+                  return Math.max(left, right) + 1;
+              };
+            </code>
+          </pre>
+
+          <p class="language-javascript">
+            This algorithm costs \(O(n)\) runtime and \(O(1)\) extra space.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
