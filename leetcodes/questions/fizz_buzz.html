@@ -86,7 +86,36 @@ Return:
       <div class="row">
         <div class="col-12">
           <p class="section-text">
-            
+            This problem is quite straightforward. The only tricky part is to
+            order the condition checks in the right order. We want to check
+            if the number is both divisible by 3 and 5 first because a number
+            that's divisible by 3 can also be divisible by 5 and vice-versa.
+            Hence, we don't want to check if a number is divisble by 3 or 5
+            beforehand because we will skip the AND case.
+          </p>
+          <pre>
+            <code class="language-javascript">
+              var fizzBuzz = function(n) {
+                  let result = [];
+
+                  for (let i = 1; i <= n; ++i) {
+                      if (i % 5 === 0 && i % 3 === 0) {
+                          result.push('FizzBuzz');
+                      } else if (i % 5 === 0) {
+                          result.push('Buzz');
+                      } else if (i % 3 === 0) {
+                          result.push('Fizz');
+                      } else {
+                          result.push(i.toString(10));
+                      }
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            This algorithm runs in \(O(n)\) time and takes \(O(n)\) extra space.
           </p>
         </div>
       </div>
