@@ -99,15 +99,10 @@ Return:
                   let result = [];
 
                   for (let i = 1; i <= n; ++i) {
-                      if (i % 5 === 0 && i % 3 === 0) {
-                          result.push('FizzBuzz');
-                      } else if (i % 5 === 0) {
-                          result.push('Buzz');
-                      } else if (i % 3 === 0) {
-                          result.push('Fizz');
-                      } else {
-                          result.push(i.toString(10));
-                      }
+                      if (i % 5 === 0 && i % 3 === 0) result.push('FizzBuzz');
+                      else if (i % 5 === 0) result.push('Buzz');
+                      else if (i % 3 === 0) result.push('Fizz');
+                      else result.push(i.toString(10));
                   }
 
                   return result;
@@ -115,7 +110,38 @@ Return:
             </code>
           </pre>
           <p class="section-text">
-            This algorithm runs in \(O(n)\) time and takes \(O(n)\) extra space.
+            This algorithm runs in \(O(n)\) time and takes \(O(1)\) extra space.
+          </p>
+          <p class="section-text">
+            But, this coding style is very ugly, and gets tedious really quick
+            if we need to map numbers that are divisible by a new number to
+            a new word. (We would need to add 2 additional checks.) But, we can
+            make the code neater by using string concatenation method. This
+            method only requires us to add 1 additional check for every new
+            mapping, and the logic is much more cleaner and intuitive.
+          </p>
+          <pre>
+            <code class="language-javascript">
+              var fizzBuzz = function(n) {
+                  let result = [];
+
+                  for (let i = 1; i <= n; ++i) {
+                      let string = '';
+
+                      if (i % 3 === 0) string += 'Fizz';
+                      if (i % 5 === 0) string += 'Buzz';
+                      if (!string.length) string += i.toString(10);
+
+                      result.push(string);
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            The runtime and space complexities are the same as the previous
+            algorithm.
           </p>
         </div>
       </div>
