@@ -124,7 +124,43 @@
 
           <p class="section-text">
             Now, if we want to do this iteratively, we have to make use of a
-            queue to perform breadth first search. 
+            queue to perform breadth first search. The purpose of the queue
+            is to keep track of the nodes on each level of the binary tree.
+            The length of the queue is the number of nodes at the current level.
+            We want to loop through all these nodes and push their children
+            into the queue (if there are any). After this step at each level,
+            increment the height. When the queue is empty meaning we've reached
+            the bottom of the tree, we can return the height.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var maxDepth = function(root) {
+                  let queue  = [];
+                  let height = 0;
+
+                  if (root) queue.push(root);
+
+                  while (queue.length) {
+                      const nodes = queue.length;
+
+                      for (let i = 0; i < nodes; ++i) {
+                          const current = queue.shift();
+                          if (current.left) queue.push(current.left);
+                          if (current.right) queue.push(current.right);
+                      }
+
+                      height++;
+                  }
+
+                  return height;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The iterative method is more challenging, but it however costs
+            \(O(n)\) extra space.
           </p>
         </div>
       </div>
