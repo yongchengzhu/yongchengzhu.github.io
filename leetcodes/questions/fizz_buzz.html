@@ -143,6 +143,41 @@ Return:
             The runtime and space complexities are the same as the previous
             algorithm.
           </p>
+          <p class="section-text">
+            However, we can still further optimize the code by using a hashtable
+            for all the mappings. This way, when we need to add or delete a
+            mapping, we can just edit the hashtable without modifying the code.
+          </p>
+          <pre>
+            <code class="language-javascript">
+              var fizzBuzz = function(n) {
+                  let table = {
+                      3: 'Fizz',
+                      5: 'Buzz'
+                  };
+
+                  let result = [];
+
+                  for (let i = 1; i <= n; ++i) {
+                      let string = '';
+
+                      for (let key in table) {
+                          if (i % key === 0) string += table[key];
+                      }
+
+                      if (!string.length) string += i.toString(10);
+
+                      result.push(string);
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            This method is neat, but it requires additional \(O(n)\) extra space
+            because we're using a hashtable.
+          </p>
         </div>
       </div>
     </div>
