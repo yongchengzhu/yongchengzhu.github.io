@@ -333,7 +333,7 @@ hr {
        url('./fonts/sfmono-regular-webfont.ttf') format('truetype');
 }
 
-.tree {
+.tree, .pre-text {
   white-space: pre-wrap;
   font-family: "SF-Mono-Font";
   font-size: 13px;
