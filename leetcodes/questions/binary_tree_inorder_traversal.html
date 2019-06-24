@@ -108,9 +108,43 @@
             </pre>
 
             <p class="section-text">
-              The space complexity is obviously \(O(n)\). But, the time
+              The space complexity is obviously \(O(1)\). But, the time
               complexity is \(O(n^2)\) because we are using <code>concat</code>
               on the right subtree for each node.
+            </p>
+
+            <p class="section-text">
+              To improve the time complexity, we have to refrain from using
+              <code>concat</code> and only use <code>push</code>. To do this,
+              we need create a helper method and pass in an empty array to it.
+            </p>
+
+            <pre>
+              <code class="language-javascript">
+                var inorderTraversal = function(root) {
+                    let result = [];
+
+                    helper(root, result);
+
+                    return result;
+                };
+
+                var helper = function(root, result) {
+                    if (!root) {
+                        return;
+                    }
+
+                    helper(root.left, result);
+
+                    result.push(root.val);
+
+                    helper(root.right, result);
+                }
+              </code>
+            </pre>
+
+            <p class="section-text">
+              We've successfully reduced the time complexity down to \(O(n)\).
             </p>
           </p>
         </div>
