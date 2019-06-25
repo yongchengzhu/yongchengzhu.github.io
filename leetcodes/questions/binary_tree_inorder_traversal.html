@@ -84,10 +84,10 @@
       <div class="row">
         <div class="col-12">
           <p class="section-text">
-            The problem is quite straightforwarad. It's asking for an output
+            The problem is quite straightforward. It's asking for an output
             of an array containing the tree node values visited by inorder
-            traversal. The most intuitive way to do this is to do a DFS using
-            recursion.
+            traversal. The most intuitive way to do this is to implement a DFS
+            using recursion.
 
             <pre>
               <code class="language-javascript">
@@ -145,6 +145,42 @@
 
             <p class="section-text">
               We've successfully reduced the time complexity down to \(O(n)\).
+            </p>
+
+            <p class="section-text">
+              To answer the follow up question, we need to use a stack and a
+              while loop. The idea is very similar to recursion, except, we're
+              writing the logics for when to pop and push into the stack.
+            </p>
+
+            <pre>
+              <code class="language-javascript">
+                var inorderTraversal = function(root) {
+                    let stack   = [];
+                    let result  = [];
+                    let current = root;
+
+                    if (root) stack.push(current);
+
+                    while (stack.length) {
+                        if (current) {
+                            current = current.left;
+                            if (current) stack.push(current);
+                        } else {
+                            current = stack.pop();
+                            result.push(current.val);
+                            current = current.right;
+                            if (current) stack.push(current);
+                        }
+                    }
+
+                    return result;
+                };
+              </code>
+            </pre>
+
+            <p class="section-text">
+              The iterative algorithm takes \(O(n)\) extra space to achieve.
             </p>
           </p>
         </div>
