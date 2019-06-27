@@ -79,8 +79,41 @@
       <div class="row">
         <div class="col-12">
           <p class="section-text">
-
+            The most simple way to solve permutation problems is to use
+            recursion. The idea is to induct on the length of the nums array.
+            The recursive function should accept the nums array, the result
+            array, and a unique entry array to store each permutation. At each
+            recursive call, we want to loop through the nums array and filter
+            out the number at the current index and pass it into the recursive
+            call. The number that got filtered out is pushed into the entry
+            array. The length of the nums array will reach 0 at the base case,
+            this is where we push the entry array into the result set. This
+            algorithm clear if we draw out the tree diagram.
           </p>
+
+          <pre>
+            <code class="language-javascript">
+              var permute = function(nums) {
+                  let result = [];
+
+                  permuteHelper(nums, result, []);
+
+                  return result;
+              };
+
+              var permuteHelper = function(nums, result, entry) {
+                  if (!nums.length) {
+                      result.push(entry);
+                  }
+
+                  for (let i = 0; i < nums.length; ++i) {
+                      const filtered = nums.filter(x => x !== nums[i]);
+
+                      permuteHelper(filtered, result, entry.concat(nums[i]));
+                  }
+              }          
+            </code>
+          </pre>
         </div>
       </div>
     </div>
