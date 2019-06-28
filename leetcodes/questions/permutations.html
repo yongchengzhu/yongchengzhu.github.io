@@ -111,9 +111,16 @@
 
                       permuteHelper(filtered, result, entry.concat(nums[i]));
                   }
-              }          
+              }
             </code>
           </pre>
+
+          <p class="section-text">
+            There are a total of \(n!\) permutations at the base level, and
+            we are inducting on the length of the \(nums\) array hence the
+            time complexity is \(O(n! * n)\). And the space complexity is
+            obviously \(O(n!)\).
+          </p>
         </div>
       </div>
     </div>
