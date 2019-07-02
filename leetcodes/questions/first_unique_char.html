@@ -97,6 +97,37 @@ return 2.
           <p class="section-text">
             The runtime is \(O(n^2)\) and the space is \(O(1)\).
           </p>
+
+          <p class="section-text">
+            To optimize the runtime, we can implement the trivial hashtable
+            solution.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var firstUniqChar = function(s) {
+                  let table = {};
+
+                  for (let letter of s) {
+                      table[letter] = (table[letter] || 0) + 1;
+                  }
+
+                  for (let i = 0; i < s.length; ++i) {
+                      const current = s[i];
+
+                      if (table[current] === 1) {
+                          return i;
+                      }
+                  }
+
+                  return -1;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime is \(O(n)\) and the space is \(O(n)\).
+          </p>
         </div>
       </div>
     </div>
