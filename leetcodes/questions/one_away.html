@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>One Away</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="../../index.html">Yongcheng Zhu</a>
+
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-contents">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbar-contents">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Leetcode Solutions</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            CTCI 1.5. One Away
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              There are three types of edits that can be performed on strings:
+              insert a character, remove a character, or replace a character.
+              Given two strings, write a function to check if they are one edit
+              (or zero edits) away.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Examples:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text section-text">
+pale, ple -> true
+pales, pale -> true
+pale, bale -> true
+pale, bae -> false
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            For this problem we have to realize that the difference between
+            the string lengths of both given strings cannot exceed 1, otherwise
+            we need to perform more than 1 edits. If the difference between
+            the string lengths is the same, then we need to check if there's
+            a single character that we need to replace. If the difference
+            between the string length is exactly 1, then we need to check
+            if we need to insert a character into the shorter array; or remove
+            a character from the longer array.
+          </p>
+
+          <p class="section-text">
+            For both cases, we are using two pointers to point to the beginning
+            of both arrays. When the pointers are pointing to letters that
+            are different from each other, we need to perform an edit, hence
+            we increment the edit counts. When the edit count surpasses 1
+            the result is automatically false. If the loop is finished then
+            we have less than or equal to 1 edit count hence return true.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              function oneAway(s, t) {
+                  const difference = Math.abs(s.length - t.length);
+                  let edits = 0;
+
+                  if (difference > 1) return false;
+
+                  if (difference === 0) {
+                      // Replace
+                      for (let i = 0, j = 0; i < s.length; ++i, ++j) {
+                          if (s[i] !== t[j]) {
+                              edits++;
+                          }
+
+                          if (edits > 1) return false;
+                      }
+                  } else {
+                      // Insert / Remove
+                      const longer  = s.length > t.length ? s : t;
+                      const shorter = s.length < t.length ? s : t;
+                      let ptr1 = 0;
+                      let ptr2 = 0;
+
+                      while (ptr1 < longer.length) {
+                          if (longer[ptr1] !== shorter[ptr2]) {
+                              edits++;
+                              ptr1++;
+                          } else {
+                              ptr1++;
+                              ptr2++;
+                          }
+
+                          if (edits > 1) return false;
+                      }
+                  }
+
+                  return true;
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime is \(O(n)\) and the space is \(O(1)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
