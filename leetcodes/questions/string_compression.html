@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>String Compression</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="../../index.html">Yongcheng Zhu</a>
+
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-contents">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbar-contents">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Leetcode Solutions</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            CTCI 1.6. String Compression
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Implement a method to perform basic string compression using the
+              counts of repeated characters. For example, the string
+              \(aabcccccaaa\) would become \(a2b1c5a3\). If the "compressed"
+              string would not become smaller than the original string, your
+              method should return the original string. You can assume the
+              string has only uppercase and lowercase letters (a-z).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            Whenever we have to deal with consecutive elements in an array or
+            a string, it's a good idea to consider using the sliding window approach.
+            A sliding window needs to have left and right pointers. In this
+            case, both pointers should have an initial value of 0. If they are pointing to the same letter, then the
+            counter variable increments as well as the right pointer. If not,
+            that means we are finished counting consecutive same letters,
+            hence we concatenate the letter and the counter to the new string
+            and have the left pointer jump to the right pointer. The loop
+            ends when both pointers meet at the end of the string.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              function stringCompression(s) {
+                  let result = "";
+                  let left = 0;
+                  let right = 0;
+                  let count = 0;
+
+                  for (; left < s.length; ++right) {
+                      if (s[left] !== s[right] || s[right] > s.length - 1) {
+                          result += s[left].concat(count);
+                          count = 1;
+                          left = right;
+                      } else {
+                          count++;
+                      }
+                  }
+
+                  return result.length < s.length? result : s;
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime is \(O(n)\) and the space is \(O(n)\) because we are
+            not compressing the string inplace.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  </body>
+</html>
