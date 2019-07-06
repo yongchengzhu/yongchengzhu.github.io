@@ -77,7 +77,9 @@
                   let loopCount = m.length - 1;
 
                   while (topC < rightC) {
+
                       for (let i = 0; i < loopCount; ++i) {
+                          console.log('im')
                           swap(m, topR, topC, rightR, rightC);
                           swap(m, topR, topC, botR, botC);
                           swap(m, topR, topC, leftR, leftC);
@@ -95,7 +97,8 @@
                       botC = (botC + loopCount) - 1;
                       leftR = (leftR + loopCount) - 1;
                       leftC++;
-                      loopCount--;
+
+                      loopCount -= 2;
                   }
 
                   return m;
