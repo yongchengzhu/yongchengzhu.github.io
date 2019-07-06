@@ -53,7 +53,64 @@
       <div class="row">
         <div class="col-12">
           <p class="section-text">
-            
+            My idea is to keep track of 4 indexes in the matrix. (The 4 corners)
+            Then, swap the top-left corner with other three corner in clockwise
+            order. After each loop iteration, the indexes of each corner gets
+            updated by to their next location and swap three times again. If the
+            matrix is bigger than 3x3 then we need to update the corner indexes
+            to the inner layer and repeat the swaping algorithm.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              function rotateMatrix(m) {
+                  // 4 Positions on the matrix.
+                  let topR   = 0;
+                  let topC   = 0;
+                  let rightR = 0;
+                  let rightC = m.length - 1;
+                  let botR   = m.length - 1;
+                  let botC   = m.length - 1;
+                  let leftR  = m.length - 1;
+                  let leftC  = 0;
+
+                  let loopCount = m.length - 1;
+
+                  while (topC < rightC) {
+                      for (let i = 0; i < loopCount; ++i) {
+                          swap(m, topR, topC, rightR, rightC);
+                          swap(m, topR, topC, botR, botC);
+                          swap(m, topR, topC, leftR, leftC);
+                          topC++;
+                          rightR++;
+                          botC--;
+                          leftR--;
+                      }
+
+                      topR++;
+                      topC = (topC - loopCount) + 1;
+                      rightR = (rightR - loopCount) + 1;
+                      rightC--;
+                      botR--;
+                      botC = (botC + loopCount) - 1;
+                      leftR = (leftR + loopCount) - 1;
+                      leftC++;
+                      loopCount--;
+                  }
+
+                  return m;
+              }
+
+              function swap(m, r1, c1, r2, c2) {
+                  const temp = m[r1][c1];
+                  m[r1][c1] = m[r2][c2];
+                  m[r2][c2] = temp;
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime is \(O(n)\) and the space is \(O(1)\).
           </p>
         </div>
       </div>
