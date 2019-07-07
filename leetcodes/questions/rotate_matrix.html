@@ -36,12 +36,14 @@
       <div class="row">
         <div class="col-12">
           <p class="section-text">
-            My idea is to keep track of 4 indexes in the matrix. (The 4 corners)
-            Then, swap the top-left corner with other three corner in clockwise
-            order. After each loop iteration, the indexes of each corner gets
-            updated by to their next location and swap three times again. If the
-            matrix is bigger than 3x3 then we need to update the corner indexes
-            to the inner layer and repeat the swaping algorithm.
+            My idea is to keep track of 4 indices in the matrix. (The 4 corners)
+            Then, swap the top-left corner with other three corners in clockwise
+            order. After each loop iteration, the indices of each corner gets
+            updated to their next position (clockwise direction) and swap three
+            times again with the top-left corner. If the matrix is bigger than
+            3x3 then we need an inner loop to update the 4 indices so that
+            they point to the corners of the inner layer and repeat until
+            the most inner layer is reached.
           </p>
 
           <pre>
