@@ -35,8 +35,72 @@
       <div class="row">
         <div class="col-12">
           <p class="section-text">
-
+            My first thought was to loop through the matrix and look for zeroes,
+            then turn its entire row and column into zeroes. I quickly
+            realized if I do that then I can no longer find the original zeroes
+            on the matrix. So in order to differentiate the new zeroes and the
+            original zeroes, I can first change the original zeroes into x's,
+            and then loop through the matrix and look for x's and turn its
+            row and column EXCEPT the x's into zeroes. Finally, loop through
+            the matrix once again and turn all x's into zeroes. This is a brute
+            force solution.
           </p>
+
+          <pre>
+            <code class="language-javascript">
+              /**
+               * @param {number[][]} matrix
+               * @return {void} Do not return anything, modify matrix in-place instead.
+               */
+              var setZeroes = function(matrix) {
+                  for (let row = 0; row < matrix.length; ++row) {
+                      for (let col = 0; col < matrix[row].length; ++col) {
+                          if (matrix[row][col] === 0) {
+                              matrix[row][col] = 'x';
+                          }
+                      }
+                  }
+
+                  for (let row = 0; row < matrix.length; ++row) {
+                      for (let col = 0; col < matrix[row].length; ++col) {
+                          if (matrix[row][col] === 'x') {
+                              turnZero(matrix, row, col);
+                          }
+                      }
+                  }
+
+                  for (let row = 0; row < matrix.length; ++row) {
+                      for (let col = 0; col < matrix[row].length; ++col) {
+                          if (matrix[row][col] === 'x') {
+                              matrix[row][col] = 0;
+                          }
+                      }
+                  }
+
+                  return matrix;
+              };
+
+              var turnZero = function(matrix, row, col) {
+                  for (let i = 0; i < matrix[row].length; ++i) {
+                      if (matrix[row][i] !== 'x') {
+                          matrix[row][i] = 0;
+                      }
+                  }
+
+                  for (let i = 0; i < matrix.length; ++i) {
+                      if (matrix[i][col] !== 'x') {
+                          matrix[i][col] = 0;
+                      }
+                  }
+              }
+            </code>
+          </pre>
+
+          <div class="section-text">
+            The space complexity is obviously \(O(1)\). Then runtime complexity
+            is \(O(rc + rc(r + c) + rc)\) = \(O(r^2c + rc^2)\) which is not good
+            enough.
+          </div>
         </div>
       </div>
     </div>
