@@ -9,24 +9,7 @@
     <link rel="stylesheet" href="../../css/prism.css">
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="../../index.html">Yongcheng Zhu</a>
-
-      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-contents">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbar-contents">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Posts</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../index.html">Leetcode Solutions</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <div id="navbar-leetcode"></div>
 
     <div class="container post-container">
       <div class="row">
@@ -191,5 +174,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="../../js/prism.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
   </body>
 </html>
