@@ -99,7 +99,9 @@
           <div class="section-text">
             The space complexity is obviously \(O(1)\). Then runtime complexity
             is \(O(rc + rc(r + c) + rc)\) = \(O(r^2c + rc^2)\) which is not good
-            enough.
+            enough. The problem with this algorithm is that if two x's appear
+            on the same column (or row) then it's going to set this column to
+            zeroes two times.
           </div>
         </div>
       </div>
