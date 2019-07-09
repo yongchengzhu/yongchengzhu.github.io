@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Find Minimum in Rotated Sorted Array</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            153. Find Minimum in Rotated Sorted Array
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Suppose an array sorted in ascending order is rotated at some
+              pivot unknown to you beforehand.
+            </p>
+            <p class="pre-text">
+(i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+            </p>
+            <p class="section-text problem-text">
+              Find the minimum element.
+            </p>
+            <p class="section-text problem-text">
+              You may assume no duplicate exists in the array.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            When I first approach this problem, I decided to use two pointers
+            approach. Basically, place one pointer at the start of the array,
+            and a second pointer at the end of the array. If the array is NOT
+            rotated, we can just return the number at pointer1. Otherwise,
+            pointer1 will point to an number that's greater than pointer2. After
+            each loop iteration, pointer1 increments and pointer2 decrements. So,
+            if at any point, pointer1 is pointing to an element that's less than
+            pointer2 then pointer1 is pointing to the minimum element. Similarly,
+            if pointer2 is pointing to an element that is less than the element
+            to its left side, then pointer2 found the minimum element.
+            However, there is a chance that both pointers end up pointing to
+            the same element, then that element is the minimum element. (Imagine
+            the input is [3, 0, 1]).
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var findMin = function(nums) {
+                  if (!nums.length) return null;
+
+                  if (nums[nums.length - 1] > nums[0]) return nums[0];
+
+                  let ptr1 = 0;
+                  let ptr2 = nums.length - 1;
+
+                  while (true) {
+                      if (nums[ptr1] === nums[ptr2]) {
+                          return nums[ptr1];
+                      }
+
+                      if (nums[ptr1] < nums[ptr2]) {
+                          return nums[ptr1];
+                      }
+
+                      if (nums[ptr2] < nums[ptr2 - 1]) {
+                          return nums[ptr2];
+                      }
+
+                      ptr1++;
+                      ptr2--;
+                  }
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The space complexity is no doubt constant space. The runtime is
+            alittle better than linear search but if we round it we still get
+            \(O(n)\) runtime.
+          </p>
+
+          <p class="section-text">
+            To optimize our runtime, we have to use binary search. Similarly to
+            the first algorithm, if the original array is unrotated then we can
+            just return the first element. Otherwise, we have to divide the array
+            up into two subarrays. After trying out few examples, I realized that
+            one of the subarrays is sorted and the other one is unsorted.
+            And, the minimum element tend to be in the unsorted array.
+            <em>(We can argue that since the original array is rotated, then the
+            first element of the sorted subarray can or cannot be the minimum element
+            hence the new array we are going to search is the first element of
+            the sorted subarray with the unsorted subarray.)</em>
+            Hence, we search in this unsorted subarray next (including the middle element).
+            Repeat this until two elements are left and just return the smaller
+            one. If the input is one element then return that element.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var findMin = function(nums) {
+                  if (!nums.length) return null;
+
+                  let start = 0;
+                  let end   = nums.length - 1;
+                  let mid   = Math.floor((start + end) / 2);
+
+                  if (nums[end] > nums[start]) {
+                      return nums[start];
+                  }
+
+                  while (true) {
+                      if (end - start === 0) {
+                          return nums[start];
+                      }
+
+                      if (end - start === 1) {
+                          return nums[start] < nums[end]? nums[start] : nums[end];
+                      }
+
+                      if (nums[mid] < nums[start]) {
+                          end = mid;
+                      } else {
+                          start = mid;
+                      }
+
+                      mid = Math.floor((start + end) / 2);
+                  }
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime is now optimized to \(O(\log{n})\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
