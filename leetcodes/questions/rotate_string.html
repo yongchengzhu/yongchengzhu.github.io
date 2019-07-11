@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Rotate String</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            796. Rotate String
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              We are given two strings, A and B.
+            </p>
+            <p class="section-text problem-text">
+              A shift on A consists of taking string A and moving the leftmost
+              character to the rightmost position. For example, if A = 'abcde',
+              then it will be 'bcdea' after one shift on A. Return True if and
+              only if A can become B after some number of shifts on A.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            The simplest way to solve this problem is to brute force it. Basically,
+            loop through the second string until we find a character that matches
+            the first character in the first string. Then, loop through both strings
+            at the same time and check if all their characters match until the end
+            of string length.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var rotateString = function(A, B) {
+                  if (A.length !== B.length) return false;
+                  if (!A.length) return true;
+
+                  for (let i = 0; i < B.length; ++i) {
+                      if (B[i] !== A[0]) continue;
+
+                      for (let j = 0; j < A.length; ++j) {
+                          if (A[j] !== B[(i + j) % B.length]) break;
+
+                          if (j === A.length - 1) return true;
+                      }
+                  }
+
+                  return false;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Since both strings must have equal length, the runtime is \(O(n^2)\),
+            and the space is \(O(1)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
