@@ -72,6 +72,60 @@
             Since both strings must have equal length, the runtime is \(O(n^2)\),
             and the space is \(O(1)\).
           </p>
+
+          <p class="section-text">
+            To improve the time complexity, we can use the Rolling Hash method.
+            Basically, it's a method that allows us to find out if a string
+            is a substring of another string in linear time by comparing their
+            hash values. By intuition if we take string A and concatenate it
+            with itself, then, if B is a rotation of A then B must be a substring
+            of A + A. We calculate the hash value of string B by
+            $$B[0].ascii * p^0 + B[1].ascii * p^1 + \cdots + B[n].ascii * p^n$$
+            where \(p\) is some big prime number. After this, we calculate the
+            hash value of every substring of length B.length from A + A and
+            compare the value with \(hash(B)\). (Similar to how we calculate
+            a running sum of n numbers in an array of numbers. Simply subtract
+            the first number in the sliding window from the running sum and
+            add the next number to the running sum.) If they have the same value
+            then B is indeed a rotation of A.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var rotateString = function(A, B) {
+                  if (A.length !== B.length) return false;
+                  if (!A.length) return true;
+
+                  const AA        = A + A;
+                  const prime     = 101;
+                  let hashB       = 0;
+                  let rollingHash = 0;
+
+                  for (let i = 0; i < B.length; ++i) {
+                      hashB += B[i].charCodeAt(0) * Math.pow(prime, i);
+                  }
+
+                  for (let i = 0; i < B.length; ++i) {
+                      rollingHash += AA[i].charCodeAt(0) * Math.pow(prime, i);
+                  }
+
+                  for (let i = 1; i <= AA.length - B.length; ++i) {
+                      if (rollingHash === hashB) return true;
+
+                      rollingHash -= AA[i - 1].charCodeAt(0) * Math.pow(prime, 0);
+                      rollingHash /= prime;
+                      rollingHash += AA[i + B.length - 1].charCodeAt(0) * Math.pow(prime, B.length - 1);
+                  }
+
+
+                  return rollingHash === hashB;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Now, the runtime complexity is only \(O(n)\).
+          </p>
         </div>
       </div>
     </div>
