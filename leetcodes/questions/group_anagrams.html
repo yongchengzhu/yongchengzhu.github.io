@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Group Anagrams</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            49. Group Anagrams
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given an array of strings, group anagrams together.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: ["eat", "tea", "tan", "ate", "nat", "bat"],
+Output:
+[
+  ["ate","eat","tea"],
+  ["nat","tan"],
+  ["bat"]
+]
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            The problem becomes straightforward when we think about hashtable
+            and how to generate a key that's common for anagrams. One approach
+            would be to sort each strings, if they're anagrams they would have
+            the same sorted string. Now, to generate the result format, just
+            loop through the hashtable and push all the values into a new array
+            or just use javascript's Object.values() method.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var groupAnagrams = function(strs) {
+                  let table  = {};
+
+                  for (let str of strs) {
+                      const key = str.split('').sort().join('');
+
+                      if (table[key]) {
+                          table[key].push(str);
+                      } else {
+                          table[key] = [str];
+                      }
+                  }
+
+                  return Object.values(table);
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            This algorithm requires \(O(n)\) space and \(O(n*k\log{k})\) where
+            \(n\) is the length of \(strs\) and \(k\) is the longest string.
+          </p>
+
+          <p class="section-text">
+            We can improve the runtime complexity by avoiding the need to sort.
+            Knowing that the strings are made up of lowercase alphabets, we can
+            create an array of length 26 to hold frequencies of the letters.
+            Then, use this array as a key for the hashtable.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var groupAnagrams = function(strs) {
+                  let table  = {};
+
+                  for (let str of strs) {
+                      let key = new Array(26).fill(0);
+
+                      for (let char of str) {
+                          key[char.charCodeAt(0) - 'a'.charCodeAt(0)]++;
+                      }
+
+                      if (table[key]) {
+                          table[key].push(str);
+                      } else {
+                          table[key] = [str];
+                      }
+                  }
+
+                  return Object.values(table);
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Now, the runtime complexity is optimized to \(O(nk)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
