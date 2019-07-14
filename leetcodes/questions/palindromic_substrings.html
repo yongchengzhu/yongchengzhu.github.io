@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Palindromic Substrings</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            647. Palindromic Substrings
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given a string, your task is to count how many palindromic
+              substrings in this string.
+            </p>
+            <p class="section-text problem-text">
+              The substrings with different start indexes or end indexes are
+              counted as different substrings even they consist of same characters.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: "abc"
+Output: 3
+Explanation: Three palindromic strings: "a", "b", "c".
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            To start this problem, we to realize that there are several ways to
+            generate all the substrings in a string. For this problem, let's
+            generate the substrings from the center. A center be at the positions
+            of the characters or the space in-between the characters. Hence,
+            there's a total of \(N + (N - 1)\) centers for all the substrings in a
+            string. Finally, at each center, expand left and right simultaneously
+            to to form new subtrings. If left and right are the same character
+            then it's a palindrome so increase the count by 1. If the center
+            is at a character position then also increase the count by 1, since
+            any single character is a palindrome by default. Repeat until all
+            centers are expanded and we should get the correct result.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var countSubstrings = function(s) {
+                  let result = 0;
+                  let center = null;
+                  let left   = null;
+                  let right  = null;
+
+                  for (let i = 0; i < s.length * 2 - 1; ++i) {
+                      if (i % 2 === 0) {
+                          result++;
+                          center = Math.floor(i / 2);
+                          left   = center - 1;
+                          right  = center + 1;
+                      } else {
+                          left  = Math.floor(i / 2);
+                          right = left + 1;
+                      }
+
+                      while (true) {
+                          if (left < 0 || right > s.length - 1) break;
+                          if (s[left] !== s[right]) break;
+
+                          result++;
+                          left--;
+                          right++;
+                      }
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The space complexity is constant, and the time complexity is \(O(n^2)\).
+          </p>
+
+          <p class="section-text">
+            The previous solution is acceptable and good enough, but we can also
+            approach this by using Dynamic Programming. Basically, create a 2D
+            array to keep track of which substrings are palindromes, and another
+            2D array to keep track of how many palindromes are in each substrings.
+            We create 2D arrays, because we are going to use 2 indexes as start
+            and end positions for the substrings. For this approach, we are going
+            to generate substrings by first checking all the substrings of length
+            1, then length 2, then length 3 and so on. For each iteration,
+            the two arrays are updated, and the result will be stored inside the
+            table that stores the palindrome counts at index [0][n-1].
+          </p>
+
+          <!-- <pre>
+            <code class="language-javascript">
+
+            </code>
+          </pre> -->
+
+          <p class="section-text">
+
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
