@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Generate Paranthesis</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            22. Generate Paranthesis
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given n pairs of parentheses, write a function to generate all
+              combinations of well-formed parentheses.
+            </p>
+            <p class="section-text problem-text">
+              For example, given n = 3, a solution set is:
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            The most straightforward approach is to use backtracking. First
+            realize what choices we have at the very top of the tree. We have
+            \(n\) left paranthesis and \(n\) right paranthesis available to us.
+            Valid paranthesis cannot start with a right paranthesis, hence
+            when both paranthesis have equal amounts available, there's only
+            one choice to make which is to use the left paranthesis. Next,
+            left paranthesis is now less than right paranthesis, at this state
+            we can make two choices, we can use either left and right paranthesis.
+            Finally, when we run out of left paranthesis, obviously, we only have
+            one choice left which is to use right paranthesis.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var generateHelper = function(lefts, rights, result, currentParan) {
+                  if (!lefts && !rights) {
+                      result.push(currentParan);
+                      return;
+                  }
+
+                  if (lefts === rights) {
+                      generateHelper(lefts - 1, rights, result, currentParan.concat('('));
+                  } else if (lefts === 0) {
+                      generateHelper(lefts, rights - 1, result, currentParan.concat(')'));
+                  } else {
+                      generateHelper(lefts - 1, rights, result, currentParan.concat('('));
+                      generateHelper(lefts, rights - 1, result, currentParan.concat(')'));
+                  }
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime complexity is too complicated to calculate. The space complexity
+            is \(O(n)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
