@@ -86,6 +86,46 @@ Output: 5->4->3->2->1->NULL
           <p class="section-text">
             The time complexity is \(O(n)\) and the space complexity is \(O(1)\).
           </p>
+
+          <p class="section-text">
+            To reverse a linked list recursively, first, consider what parameter
+            we need. We don't need to pass the head pointer because non-objects
+            in javascript are passed by value, hence we cannot modify the head
+            node directly. So, we only need to pass in the current pointer. The role
+            of the current pointer is to iterate through the linked list starting
+            from the head node, when it reaches the last node, return this node
+            back as the new head node. Now, at this point, the call stack starts
+            to pop, which we can imagine this as the current pointer going backwards
+            in the linked list. We can make use of this by modifying the
+            current.next.next to point to the current node as the current pointer is traveling
+            backwards in the linked list. At termination, the new head is returned
+            hence linked list is reversed.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var reverseList = function(head) {
+                  return reverseHelper(head);
+              };
+
+              var reverseHelper = function(current) {
+                  if (!current) return current;
+                  if (!current.next) return current;
+
+                  const newHead = reverseHelper(current.next);
+                  current.next.next = current;
+                  current.next      = null;
+
+                  return newHead;
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The time complexity is \(O(n)\) because we are going forward and backward
+            through the entire linked list. The space complexity is \(O(n)\)
+            because the call stack will store at most \(n\) calls.
+          </p>
         </div>
       </div>
     </div>
