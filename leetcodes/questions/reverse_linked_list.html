@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Reverse Linked List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            206. Reverse Linked List
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Reverse a singly linked list.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: 1->2->3->4->5->NULL
+Output: 5->4->3->2->1->NULL
+                  </div>
+                </div>
+              </div>
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Follow up:</span>
+              <p class="section-text problem-text">
+                A linked list can be reversed either iteratively or recursively.
+                Could you implement both?
+              </p>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            First let's solve this using the trivial iterative approach. The idea
+            is to keep track of three pointers.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var reverseList = function(head) {
+                  if (!head) return null;
+                  if (!head.next) return head;
+
+                  let prev = head;
+                  let curr = head;
+                  let next = curr.next;
+
+                  while (next.next) {
+                      prev = curr;
+                      curr = next;
+                      next = next.next;
+
+                      curr.next = prev;
+                  }
+
+                  next.next = curr;
+                  head.next = null;
+                  head      = next;
+
+                  return head;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The time complexity is \(O(n)\) and the space complexity is \(O(1)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
