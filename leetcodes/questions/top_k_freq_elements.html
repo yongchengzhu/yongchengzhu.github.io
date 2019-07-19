@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Top K Frequent Elements</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            347. Top K Frequent Elements
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given a non-empty array of integers, return the k most frequent elements.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: nums = [1,1,1,2,2,3], k = 2
+Output: [1,2]
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            It's pretty obvious that we need to use a hashtable to keep track
+            of the frequencies. But the problem comes when we need to sort
+            the properties inside of the table by freqencies. The most intuitive
+            way is to use buckets, basically an array of arrays. The idea is to loop
+            through the hashtable and push the keys into the array at the frequency
+            index of the buckets.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var topKFrequent = function(nums, k) {
+                  let table   = {};
+                  let buckets = new Array(nums.length + 1).fill().map(() => new Array(0));
+                  let kCount  = k;
+                  let result  = [];
+
+                  for (let num of nums) {
+                      table[num] = (table[num] || 0) + 1;
+                  }
+
+                  for (let key in table) {
+                      const freq = table[key];
+                      buckets[freq].push(parseInt(key));
+                  }
+
+                  for (let i = buckets.length - 1; i >= 0; --i) {
+                      if (buckets[i].length && kCount > 0) {
+                          for (let j = 0; j < buckets[i].length && kCount > 0; ++j) {
+                              kCount--;
+                              result.push(buckets[i][j]);
+                          }
+                      }
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The time complexity is \(O(n)\) and the space complexity is also \(O(n)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
