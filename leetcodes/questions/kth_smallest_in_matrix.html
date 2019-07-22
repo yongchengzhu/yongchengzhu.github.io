@@ -52,8 +52,31 @@ return 13.
       <div class="row">
         <div class="col-12">
           <p class="section-text">
-            <em>Working on this problem...</em>
+            If we think about it, we can easily create an array and push all the
+            numbers of the matrix inside of this array, then sort it and return
+            the \(k-1^{th}\) element.
           </p>
+
+          <pre>
+            <code class="language-javascript">
+              var kthSmallest = function(matrix, k) {
+                  let result  = [];
+                  let counter = 0;
+
+                  for (let row = 0; row < matrix.length; ++row) {
+                      for (let col = 0; col < matrix[row].length; ++col) {
+                          result.push(matrix[row][col]);
+                      }
+                  }
+
+                  return result.sort((a,b) => a - b)[k - 1];
+              };
+            </code>
+          </pre>
+
+          <div class="section-text">
+            Runtime is \(O(n\log{n})\), space is \(O(n)\).
+          </div>
         </div>
       </div>
     </div>
