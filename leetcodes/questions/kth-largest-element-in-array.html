@@ -91,7 +91,45 @@ Output: 5
           </pre>
 
           <p class="section-text">
-            This approach is slightly better than sorting, which takes \(O(k \log{n})\).
+            This approach is slightly better than sorting, which takes \(O(k \log{n})\)
+            runtime but costs \(O(n)\) space.
+          </p>
+
+          <p class="section-text">
+            We can improve this time complexity alittle bit more if we choose to
+            use a Min Heap instead. The intuition is that, if the Min Heap keeps
+            \(k\) elements then the root element is the \(k^{th}\) smallest element
+            of all the elements in the Heap. So, the goal is to get all \(k\)
+            largest elements inside of the Min Heap. Then, it's obvious that
+            the root is the \(k^{th}\) largest element out of the input array.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var findKthLargest = function(nums, k) {
+                  let heap = new MinHeap();
+
+                  for (let i = 0; i < k; ++i) {
+                      heap.insert(nums[i]);
+                  }
+
+                  for (let i = k; i < nums.length; ++i) {
+                      if (nums[i] > heap.heap[0]) {
+                          heap.extract();
+                          heap.insert(nums[i]);
+                      }
+                  }
+
+                  return heap.extract();
+              };
+
+              // Implementation of Binary Heap can be found in my Blog Posts.
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime is optimized to \(O(k + (n - k)\log{k})\) and the space
+            is also optimized to \(O(k)\).
           </p>
 
           <p class="section-text">
