@@ -85,7 +85,100 @@
             </code>
           </pre>
 
+          <p class="section-text">
+            The \(extract()\) method needs a bit more work, but it's not too bad.
+            Basically, whenever we extract an element from the Heap, first, it
+            removes the root element, then the last element becomes the root element.
+            Now, repeated compare the root element with it's left and right children.
+            If the root element is smaller than both children then the loop ends.
+            Otherwise, swap the root element with the smallest children element
+            and repeat until the bottom of the Heap.
+          </p>
 
+          <p class="section-text">
+            Below is the complete code for my Binary Heap implementation.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var MinHeap = class MinHeap {
+                  constructor() {
+                      this.heap = [];
+                  }
+
+                  insert(entry) {
+                      this.heap.push(entry);
+
+                      const length  = this.heap.length;
+                      let   current = length - 1;
+                      let   parent  = Math.floor((current - 1) / 2);
+
+                      while (current > 0) {
+                          if (this.heap[current] < this.heap[parent]) {
+                              this.swap(current, parent);
+                              current = parent;
+                              parent  = Math.floor((current - 1) / 2);
+                          } else {
+                              return;
+                          }
+                      }
+                  }
+
+                  extract() {
+                      if (!this.heap.length) return null;
+
+                      const result  = this.heap[0];
+                      let   current = 0;
+                      let   left    = current * 2 + 1;
+                      let   right   = current * 2 + 2;
+
+                      this.heap[current] = this.heap[this.heap.length - 1];
+                      this.heap.length--;
+
+                      const length = this.heap.length;
+
+                      while (true) {
+                          let smallest = Infinity;
+
+                          if (left > length - 1 && right > length - 1) {
+                              break;
+                          }
+
+                          if (left > length - 1 || right > length - 1) {
+                              // If one of the children is null.
+                              smallest = left > length - 1? right : left;
+                          } else {
+                              // If both children are valid.
+                              smallest = this.heap[left] < this.heap[right]? left : right;
+                          }
+
+                          if (this.heap[current] < this.heap[smallest]) break;
+
+                          this.swap(current, smallest);
+
+                          current = smallest;
+                          left    = current * 2 + 1;
+                          right   = current * 2 + 2;
+                      }
+
+                      return result;
+                  }
+
+                  swap(entryA, entryB) {
+                      let temp = this.heap[entryA];
+                      this.heap[entryA] = this.heap[entryB];
+                      this.heap[entryB] = temp;
+                  }
+              }
+            </code>
+          </pre>
+
+          <p class="language-javascript">
+            The good thing about Binary Heap is that building a Heap from an
+            array of \(N\) elements requires \(O(N)\) runtime. Hence, if we were
+            to extract \(K\) elements from the heap, it would cost \(O(K \log{N})\),
+            which is slightly better than regular sort.
+          </p>
         </div>
       </div>
     </div>
