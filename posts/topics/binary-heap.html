@@ -14,6 +14,7 @@
     <div class="container post-container">
       <div class="row">
         <div class="col-12">
+          <!-- Header -->
           <h1 class="section-text section-header" style="padding-bottom: 0">
             Implementing Binary Heap With Javascript
           </h1>
@@ -21,23 +22,70 @@
             Posted by Yongcheng on July 22, 2019
           </p>
 
+          <!-- Contents -->
           <p class="section-text">
             Recently, I've been running into a few Leetcode problems that requires
             a Heap solution. The disadvantage of using Javascript is that it has
             no built-in libraries for many useful data structures such as Heap.
             Hence today I will try to implement a Binary Heap class so that
             I can easiy copy this over to my Leetcode solution and make use of it
-            easily.
+            easily. To keep the code short and simple, I will only implement two
+            methods: \(insert()\) and \(extract()\). This will be a Min Heap.
           </p>
-        </div>
-      </div>
 
-      <!-- Content -->
-      <div class="row">
-        <div class="col-12">
           <p class="section-text">
-
+            To implement any class, we need a constructor. When a new Heap object
+            is instantiated, an empty Heap should be created (as an array in this
+            case).
           </p>
+
+          <pre>
+            <code class="language-javascript">
+              var MinHeap = class MinHeap {
+                  constructor() {
+                      this.heap = [];
+                  }
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Next, let's implement the logic for \(insert()\). The idea is that,
+            whenever a new element is inserted into the Heap, first it's pushed
+            to the end of the Heap and then it repeatedly compares itself with
+            the parent. If it's smaller than the parent, then it swaps with the
+            the parent and repeats until parent node is reached.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var MinHeap = class MinHeap {
+                  constructor() {
+                      this.heap = [];
+                  }
+
+                  insert(entry) {
+                      this.heap.push(entry);
+
+                      const length  = this.heap.length;
+                      let   current = length - 1;
+                      let   parent  = Math.floor((current - 1) / 2);
+
+                      while (current > 0) {
+                          if (this.heap[current] < this.heap[parent]) {
+                              this.swap(current, parent);
+                              current = parent;
+                              parent  = Math.floor((current - 1) / 2);
+                          } else {
+                              return;
+                          }
+                      }
+                  }
+              }
+            </code>
+          </pre>
+
+          
         </div>
       </div>
     </div>
