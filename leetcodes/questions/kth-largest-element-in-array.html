@@ -60,7 +60,38 @@ Output: 5
           </pre>
 
           <p class="section-text">
-            The runtime would be \(O(n\log{n}) and the space is constant.
+            The runtime would be \(O(n\log{n})\) and the space is constant.
+          </p>
+
+          <p class="section-text">
+            The next obvious approach would be to use a Max Heap. First, build
+            the heap with all the elements. Then extract \(k-1\) elements from the
+            heap. Now, the element at the top of the Heap is the \(k^{th}\) largest
+            elemnet.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var findKthLargest = function(nums, k) {
+                  let heap = new MaxHeap();
+
+                  for (let num of nums) {
+                      heap.insert(num);
+                  }
+
+                  for (let i = 0; i < k - 1; ++i) {
+                      heap.extract();
+                  }
+
+                  return heap.extract();
+              };
+
+              // Implementation of Binary Heap can be found in my Blog Posts.
+            </code>
+          </pre>
+
+          <p class="section-text">
+            This approach is slightly better than sorting, which takes \(O(k \log{n})\).
           </p>
 
           <p class="section-text">
@@ -121,6 +152,55 @@ Output: 5
             would be \(O(n)\) if the first pivot that we picked happens to be
             the \(k^{th}\) largest number. The average-case assuming that at each
             call, we picked a pivot that is a median then we get \(O(n\log{n})\).
+          </p>
+
+          <p class="section-text">
+            However, this version of Quick Select can be optimized so that it
+            only searches into one subarray for each call instead of two. If \(k\)
+            is bigger than \(pivot+1\) then look at the right subarray, otherwise
+            the left.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var findKthLargest = function(nums, k) {
+                  if (!nums.length) return null;
+
+                  return quickSelect(nums, k);
+              };
+
+              var quickSelect = function (nums, k, start = 0, end = nums.length - 1) {
+                  const pivot = pivotHelper(nums, start, end);
+
+                  if (pivot + 1 === k) return nums[pivot];
+
+                  if (k < pivot + 1) {
+                      return quickSelect(nums, k, start, pivot - 1);
+                  } else {
+                      return quickSelect(nums, k, pivot + 1, end);
+                  }
+              }
+
+              var pivotHelper = function(nums, start, end) {
+                  const pivot   = start;
+                  let   swapIdx = start + 1;
+
+                  for (let i = start + 1; i <= end; ++i) {
+                      if (nums[i] >= nums[pivot]) {
+                          [nums[i], nums[swapIdx]] = [nums[swapIdx], nums[i]];
+                          swapIdx++;
+                      }
+                  }
+
+                  [nums[pivot], nums[swapIdx - 1]] = [nums[swapIdx - 1], nums[pivot]];
+
+                  return swapIdx - 1;
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime has been optimized to \(O(n)\).
           </p>
         </div>
       </div>
