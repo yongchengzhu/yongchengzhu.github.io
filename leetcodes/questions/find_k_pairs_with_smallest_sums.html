@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Find K Pairs with Smallest Sums</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            373. Find K Pairs with Smallest Sums
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              You are given two integer arrays \(nums1\) and \(nums2\) sorted in ascending order and an integer \(k\).
+
+              Define a pair \((u,v)\) which consists of one element from the first array and one element from the second array.
+
+              Find the k pairs \((u1,v1),(u2,v2) \cdots (uk,vk)\) with the smallest sums.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: nums1 = [1,7,11], nums2 = [2,4,6], k = 3
+Output: [[1,2],[1,4],[1,6]]
+Explanation: The first 3 pairs are returned from the sequence:
+             [1,2],[1,4],[1,6],[7,2],[7,4],[11,2],[7,6],[11,4],[11,6]
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            When we have two sorted arrays and we need to find pairs, it's
+            easy to realize that we can form a matrix out of these two arrays.
+            Let \(nums1\) be the row and \(nums2\) be the column. The entries
+            of the matrix is just the sum of the corresponding numbers from both
+            arrays.
+          </p>
+
+          <p class="section-text">
+            The idea of the algorithm is to begin by inserting the first column into
+            to the Min Heap. Since we need to know 3 pieces of information: the sum,
+            row, and column, we need to insert an object into the Heap for each entry
+            in the matrix. Now, simple loop through the heap until our result array
+            has length of \(k\). For each iteration, extract from the top of the Min
+            Heap and then insert the entry to its right side in the matrix. IF
+            the right entry is out of bound simply continue the loop. Whenever
+            we extract from the heap, we should push in the row and column pair
+            into the result array.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var kSmallestPairs = function(nums1, nums2, k) {
+                  let heap   = new MinHeap();
+                  let result = [];
+
+                  if (!nums1.length || !nums2.length) return result;
+
+                  for (let row = 0; row < nums1.length; ++row) {
+                      heap.insert({ sum: nums1[row] + nums2[0], i: row, j: 0 });
+                  }
+
+                  while(result.length < k && heap.heap.length) {
+                      const { i, j } = heap.extract();
+
+                      if (j >= nums2.length) continue;
+
+                      result.push([nums1[i], nums2[j]]);
+
+                      heap.insert({ sum: nums1[i] + nums2[j + 1], i: i, j: j + 1 });
+                  }
+
+                  return result;
+              };
+
+              //
+              // Min Heap Implementation
+              //
+              var MinHeap = class MinHeap {
+                  constructor() {
+                      this.heap = [];
+                  }
+
+                  insert(entry) {
+                      this.heap.push(entry);
+
+                      const length  = this.heap.length;
+                      let   current = length - 1;
+                      let   parent  = Math.floor((current - 1) / 2);
+
+                      while (current > 0) {
+                          if (this.heap[current].sum < this.heap[parent].sum) {
+                              this.swap(current, parent);
+                              current = parent;
+                              parent  = Math.floor((current - 1) / 2);
+                          } else {
+                              return;
+                          }
+                      }
+                  }
+
+                  extract() {
+                      if (!this.heap.length) return null;
+
+                      const result  = this.heap[0];
+                      let   current = 0;
+                      let   left    = current * 2 + 1;
+                      let   right   = current * 2 + 2;
+
+                      this.heap[current] = this.heap[this.heap.length - 1];
+                      this.heap.length--;
+
+                      const length = this.heap.length;
+
+                      while (true) {
+                          let smallest = Infinity;
+
+                          if (left > length - 1 && right > length - 1) {
+                              break;
+                          }
+
+                          if (left > length - 1 || right > length - 1) {
+                              // If one of the children is null.
+                              smallest = left > length - 1? right : left;
+                          } else {
+                              // If both children are valid.
+                              smallest = this.heap[left].sum < this.heap[right].sum? left : right;
+                          }
+
+                          if (this.heap[current].sum < this.heap[smallest].sum) break;
+
+                          this.swap(current, smallest);
+
+                          current = smallest;
+                          left    = current * 2 + 1;
+                          right   = current * 2 + 2;
+                      }
+
+                      return result;
+                  }
+
+                  swap(entryA, entryB) {
+                      let temp = this.heap[entryA];
+                      this.heap[entryA] = this.heap[entryB];
+                      this.heap[entryB] = temp;
+                  }
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime is \(O(k\log{n-k})\) and space is \(O(n-k)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
