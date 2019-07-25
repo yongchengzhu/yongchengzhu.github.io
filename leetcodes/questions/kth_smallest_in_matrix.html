@@ -74,9 +74,147 @@ return 13.
             </code>
           </pre>
 
-          <div class="section-text">
+          <p class="section-text">
             Runtime is \(O(n\log{n})\), space is \(O(n)\).
-          </div>
+          </p>
+
+          <p class="section-text">
+            Another way to think about this problem is to start from top-left
+            element. This is the smallest element in the entire matrix. If we can
+            somehow traverse the matrix from smallest to largest inorder, then
+            we can easily find the \(k^{th}\) smallest number in the matrix.
+          </p>
+
+          <p class="section-text">
+            To do this, we need to realize that for every number inside the matrix,
+            the number to its right and bottom can possibly be the next bigger
+            number. To find out which one is smaller (out of the two) and to save this position,
+            simply insert an object into a Min Heap with the value, row, and column
+            information. After inserting the object into the heap, make the current
+            position \(null\) in the matrix so that we don't visit this place again
+            in the future. Now, we just need to create loop that loops for \(k-1\)
+            times and for each iteration, we extract out the smallest element from
+            the top of the Min Heap and check if its right and bottom elements are
+            valid (not out of boundary and not null) then insert those elements
+            into the Heap repeatedly. After the loop is finished, meaning the
+            \(k-1\) smallest elements are all gone from the Heap, hence the top
+            of the Heap should contain the \(k^{th}\) smallest element from the
+            matrix.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var kthSmallest = function(matrix, k) {
+                  let heap = new MinHeap();
+
+                  heap.insert({ val: matrix[0][0], row: 0, col: 0 });
+
+                  matrix[0][0] = null;
+
+                  for (let i = 0; i < k - 1; ++i) {
+                      const current = heap.extract();
+
+                      if (current.row < matrix.length - 1 &&
+                          matrix[current.row + 1][current.col] !== null) {
+                          heap.insert({
+                              val: matrix[current.row + 1][current.col],
+                              row: current.row + 1,
+                              col: current.col
+                          });
+
+                          matrix[current.row + 1][current.col] = null;
+                      }
+
+                      if (current.col < matrix.length - 1 &&
+                          matrix[current.row][current.col + 1] !== null) {
+                          heap.insert({
+                              val: matrix[current.row][current.col + 1],
+                              row: current.row,
+                              col: current.col + 1
+                          });
+
+                          matrix[current.row][current.col + 1] = null;
+                      }
+                  }
+
+                  return heap.extract().val;
+              };
+
+              var MinHeap = class MinHeap {
+                  constructor() {
+                      this.heap = [];
+                  }
+
+                  insert(entry) {
+                      this.heap.push(entry);
+
+                      const length  = this.heap.length;
+                      let   current = length - 1;
+                      let   parent  = Math.floor((current - 1) / 2);
+
+                      while (current > 0) {
+                          if (this.heap[current].val < this.heap[parent].val) {
+                              this.swap(current, parent);
+                              current = parent;
+                              parent  = Math.floor((current - 1) / 2);
+                          } else {
+                              return;
+                          }
+                      }
+                  }
+
+                  extract() {
+                      if (!this.heap.length) return null;
+
+                      const result  = this.heap[0];
+                      let   current = 0;
+                      let   left    = current * 2 + 1;
+                      let   right   = current * 2 + 2;
+
+                      this.heap[current] = this.heap[this.heap.length - 1];
+                      this.heap.length--;
+
+                      const length = this.heap.length;
+
+                      while (true) {
+                          let smallest = Infinity;
+
+                          if (left > length - 1 && right > length - 1) {
+                              break;
+                          }
+
+                          if (left > length - 1 || right > length - 1) {
+                              // If one of the children is null.
+                              smallest = left > length - 1? right : left;
+                          } else {
+                              // If both children are valid.
+                              smallest = this.heap[left].val < this.heap[right].val? left : right;
+                          }
+
+                          if (this.heap[current].val < this.heap[smallest].val) break;
+
+                          this.swap(current, smallest);
+
+                          current = smallest;
+                          left    = current * 2 + 1;
+                          right   = current * 2 + 2;
+                      }
+
+                      return result;
+                  }
+
+                  swap(entryA, entryB) {
+                      let temp = this.heap[entryA];
+                      this.heap[entryA] = this.heap[entryB];
+                      this.heap[entryB] = temp;
+                  }
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime will be \(O((k-1)\log{n-k-1})\), and the space is \(O(n-k-1)\).
+          </p>
         </div>
       </div>
     </div>
