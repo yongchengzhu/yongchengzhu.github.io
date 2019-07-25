@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Search a 2D Matrix II</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            240. Search a 2D Matrix II
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Write an efficient algorithm that searches for a value in an m x n
+              matrix. This matrix has the following properties:
+              <ul>
+                <li>Integers in each row are sorted from left to right.</li>
+                <li>Integers in each column are sorted in ascending from top to bottom.</li>
+              </ul>
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Consider the following matrix:
+
+[
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
+Given target = 5, return true.
+
+Given target = 20, return false.
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            To start it's always good to think about the easiest solution. Which
+            in this case, is to brute force through the entire matrix and search
+            for the target.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var searchMatrix = function(matrix, target) {
+                  for (let row = 0; row < matrix.length; ++row) {
+                      for (let col = 0; col < matrix[row].length; ++col) {
+                          if (matrix[row][col] === target) return true;
+                      }
+                  }
+
+                  return false;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime is \(O(n*m)\) and space is constant.
+          </p>
+
+          <p class="section-text">
+            When we have a matrix that is sorted by both rows and columns,
+            we should choose a corner to start. In our case, we are looking for
+            a target number, so the corner should allow us to look for the next
+            smaller or larger number depending on the comparison of the current
+            number with the target. Hence we should choose the top-right corner
+            or the bottom-left corner to start searching. In our case, let's just
+            choose bottom-left.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var searchMatrix = function(matrix, target) {
+                  if (!matrix.length || !matrix[0].length) return false;
+
+                  let row = matrix.length - 1;
+                  let col = 0;
+
+                  while (true) {
+                      if (row < 0 || col > matrix[0].length - 1) break;
+
+                      if (matrix[row][col] === target) return true;
+
+                      if (target > matrix[row][col]) {
+                          col++;
+                      } else {
+                          row--;
+                      }
+                  }
+
+                  return false;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The time is \(O(m+n)\) and the space is constant.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
