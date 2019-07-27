@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Minimum Window Substring</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            76. Minimum Window Substring
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given a string S and a string T, find the minimum window in S
+              which will contain all the characters in T in complexity O(n).
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: S = "ADOBECODEBANC", T = "ABC"
+Output: "BANC"
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            For problems that we need to keep track of a consecutive subsequence
+            of the input, we should use a sliding window such as for this problem.
+            For the sliding window, we have two pointers, one pointing to the
+            start of the substring and the other points to the end of the substring.
+            To begin, we should create a hashtable to map all the letters in
+            \(t\) with their corresponding freqencies so that we can look up
+            and check whether or not our substrings contain all the characters
+            in \(t\). Next, set up the pointers so that both pointers are pointing
+            to the beginning of \(s\). At each loop, the right pointer will increment
+            to expand the substring window until the current substring contains
+            all the characters inside \(t\). When that happens, we want to compare
+            the length of this substring with the substring that we kept track of
+            to return in the end. If the length is indeed shorter, then update
+            the string to the current substring and also update the length. Finally,
+            we want to shrink the size of the window by incrementing the left pointer
+            until the substring no longer contains all the characters in \(t\).
+            Repeat this until the right pointer is out of boundary.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var minWindow = function(s, t) {
+                  let reqChars = {};
+                  let winChars = {};
+                  let matches  = 0;
+                  let result   = "";
+                  let winLen   = Infinity;
+
+                  for (let i = 0; i < t.length; ++i) {
+                      reqChars[t[i]] = (reqChars[t[i]] || 0) + 1;
+                  }
+
+                  const reqCharsLen = Object.keys(reqChars).length;
+
+                  for (let l = 0, r = 0; r < s.length; ++r) {
+                      winChars[s[r]] = (winChars[s[r]] || 0) + 1;
+                      matches += winChars[s[r]] === reqChars[s[r]];
+
+                      while (matches === reqCharsLen) {
+                          if (r - l + 1 < winLen) {
+                              result = s.slice(l, r + 1);
+                              winLen = r - l + 1;
+                          }
+                          winChars[s[l]]--;
+                          matches -= winChars[s[l]] < reqChars[s[l]];
+                          l++;
+                      }
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime is \(O(t + s)\). And the space complexity is \(O(s + t)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
