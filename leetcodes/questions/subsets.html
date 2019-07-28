@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>78. Subsets</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            78. Subsets
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given a set of distinct integers, nums, return all possible subsets (the power set).
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: nums = [1,2,3]
+Output:
+[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            Begin by drawing a the recursion tree. Each node in the recursion tree
+            consist of 3 parameters, the input array, the subset, and the result.
+            At the root node, the subset is empty and the input array is unchanged.
+            As we go down each level in the tree, the input array has its first
+            element removed and used as a choice for the subset array. The subset
+            array has two choices, one is to push the removed element, the other
+            is to maintain the current subset. When all the elements are removed
+            from the input array, we have ran out of choices, hence we can push
+            in the subset array into the result set and backtrack.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var subsets = function(nums) {
+                  let result = [];
+
+                  generate(nums, [], result);
+
+                  return result;
+              };
+
+              var generate = function(nums, subset, result) {
+                  if (!nums.length) {
+                      result.push(subset);
+                      return;
+                  }
+
+                  const newNums = nums.slice(1, nums.length);
+
+                  generate(newNums, subset.concat(nums[0]), result);
+                  generate(newNums, subset, result);
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime is \(O(n * 2^n)\). And the space complexity is \(O(n)\)
+            excluding the output array.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
