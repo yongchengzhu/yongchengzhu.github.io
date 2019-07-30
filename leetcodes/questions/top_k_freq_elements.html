@@ -87,6 +87,44 @@ Output: [1,2]
           <p class="section-text">
             The time complexity is \(O(n)\) and the space complexity is also \(O(n)\).
           </p>
+
+          <p class="section-text">
+            The more obvious solution might be to use a Min Heap to keep track of
+            the two most frequent numbers from the hashtable.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var topKFrequent = function(nums, k) {
+                  let table   = {};
+                  let MinHeap = new PriorityQueue((a, b) => a.freq - b.freq);
+                  let result  = [];
+
+                  for (let num of nums) {
+                      table[num] = (table[num] || 0) + 1;
+                  }
+
+                  for (let key in table) {
+                      MinHeap.insert({ num: key, freq: table[key] })
+                      if (MinHeap.size() > k) {
+                          MinHeap.extract();
+                      }
+                  }
+
+                  while (MinHeap.size()) {
+                      result.push(MinHeap.extract().num);
+                  }
+
+                  return result;
+              };
+
+              // Implementation of Heap is in my Blog Posts.
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The time complexity is \(O(n*\log{k})\) and the space is \(O(n)\).
+          </p>
         </div>
       </div>
     </div>
