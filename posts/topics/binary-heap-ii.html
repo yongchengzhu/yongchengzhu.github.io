@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Implementing Binary Heap With Javascript</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <!-- Header -->
+          <h1 class="section-text section-header" style="padding-bottom: 0">
+            Implementing Binary Heap With Javascript
+          </h1>
+          <p class="section-text project-date" style="padding-bottom: 2rem">
+            Posted by Yongcheng on July 22, 2019
+          </p>
+
+          <!-- Contents -->
+          <p class="section-text">
+            After encountering more Leetcode questions that requires Heap usage,
+            I noticed how unpractical my previous implementation of Binary Heap
+            was. For example, if I want to use a Max Heap, I would have to change
+            the the operators inside my methods. And if I want to insert an object into
+            the heap, the code will not work unless I update the condition check
+            and to tell it specifically which key inside the object I want to
+            use to compare.
+          </p>
+          <p class="section-text">
+            To improve my implementation, I need to add an option in the
+            parameters of the constructor. By default, if no option is specified,
+            the Heap will be default be a Min Heap. If we want to use a Max
+            heap, we would need to specify an option for that as an argument
+            when we create the Heap. If we want to insert objects instead of numbers,
+            we would also need to specify that in the option. To achieve this,
+            we can create an optional comparison parameter in the constructor.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              constructor(compare = (a, b) => a - b) {
+                      this.heap = [];
+                      this.compare = compare;
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The idea is that, if \(a\) is greater than \(b\), then \(a-b>0\).
+            Meaning, we can use this logic for our \(insert()\) method, such that
+            for the Min Heap logic, if the parent node is greater than the current
+            node we inserted, then swap. Of course, if we want this to be a Max
+            Heap, then we would need to provide the following function in the
+            constructor: <code>(a, b) => b - a</code>.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              insert(entry) {
+                  this.heap.push(entry);
+
+                  const length  = this.heap.length;
+                  let   current = length - 1;
+                  let   parent  = Math.floor((current - 1) / 2);
+
+                  while (current > 0) {
+                      if (this.compare(this.heap[parent], this.heap[current]) > 0) {
+                          this.swap(current, parent);
+                          current = parent;
+                          parent  = Math.floor((current - 1) / 2);
+                      } else {
+                          return;
+                      }
+                  }
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Similarly, we can incorporate this logic inside of the \(extract()\)
+            method. There's only two places where we need to make changes. I've
+            pointed out the locations in the code with comments.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              extract() {
+                  if (!this.heap.length) return null;
+
+                  const result  = this.heap[0];
+                  let   current = 0;
+                  let   left    = current * 2 + 1;
+                  let   right   = current * 2 + 2;
+
+                  this.heap[current] = this.heap[this.heap.length - 1];
+                  this.heap.length--;
+
+                  const length = this.heap.length;
+
+                  while (true) {
+                      let smallest = Infinity;
+
+                      if (left > length - 1 && right > length - 1) {
+                          break;
+                      }
+
+                      if (left > length - 1 || right > length - 1) {
+                          smallest = left > length - 1? right : left;
+                      } else {
+                          // Modified here:
+                          smallest = this.compare(this.heap[right], this.heap[left]) > 0? left : right;
+                      }
+                      // Modified here:
+                      if (this.compare(this.heap[smallest], this.heap[current]) > 0) break;
+
+                      this.swap(current, smallest);
+
+                      current = smallest;
+                      left    = current * 2 + 1;
+                      right   = current * 2 + 2;
+                  }
+
+                  return result;
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Now, our implementation is more general. It can support both Min
+            and Max Heap. Also, when we want to insert an object like:
+            <code>{ name: "A Name", val: 123 }</code> we can easily tell the heap
+            what to compare in the constructor by doing the following:
+            <code>let MinHeap = new PriorityQueue((a, b) => a.val - b.val)</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-posts.html');
+    </script>
+  </body>
+</html>
