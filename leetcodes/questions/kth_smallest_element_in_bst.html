@@ -82,6 +82,50 @@ Output: 1
             node once, and the space complexity is \(O(h)\) where \(h\) is the
             height of the tree.
           </p>
+
+          <p class="section-text">
+            The optimized way to approach this problem is to do a inorder traversal
+            iteratively using a stack. This way, when we found the \(k^{th}\)
+            smallest node, we can return it immediately instead of traversing
+            through the entire tree.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var kthSmallest = function(root, k) {
+                  let stack = [];
+                  let count = 0;
+
+                  let current = root;
+                  if (current) stack.push(current);
+
+                  while (stack.length) {
+                      if (current) {
+                          stack.push(current);
+                          current = current.left;
+                          continue;
+                      }
+
+                      // current === null:
+                      current = stack.pop();
+                      count++;
+
+                      if (count === k) {
+                          return current.val;
+                      }
+
+                      current = current.right;
+                  }
+
+                  return null;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime of this version is \(O(h + k)\) where \(h\) is the height
+            of the tree. The space complexity is \(O(h)\).
+          </p>
         </div>
       </div>
     </div>
