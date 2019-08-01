@@ -140,80 +140,108 @@ return 13.
                   return heap.extract().val;
               };
 
-              var MinHeap = class MinHeap {
-                  constructor() {
-                      this.heap = [];
-                  }
-
-                  insert(entry) {
-                      this.heap.push(entry);
-
-                      const length  = this.heap.length;
-                      let   current = length - 1;
-                      let   parent  = Math.floor((current - 1) / 2);
-
-                      while (current > 0) {
-                          if (this.heap[current].val < this.heap[parent].val) {
-                              this.swap(current, parent);
-                              current = parent;
-                              parent  = Math.floor((current - 1) / 2);
-                          } else {
-                              return;
-                          }
-                      }
-                  }
-
-                  extract() {
-                      if (!this.heap.length) return null;
-
-                      const result  = this.heap[0];
-                      let   current = 0;
-                      let   left    = current * 2 + 1;
-                      let   right   = current * 2 + 2;
-
-                      this.heap[current] = this.heap[this.heap.length - 1];
-                      this.heap.length--;
-
-                      const length = this.heap.length;
-
-                      while (true) {
-                          let smallest = Infinity;
-
-                          if (left > length - 1 && right > length - 1) {
-                              break;
-                          }
-
-                          if (left > length - 1 || right > length - 1) {
-                              // If one of the children is null.
-                              smallest = left > length - 1? right : left;
-                          } else {
-                              // If both children are valid.
-                              smallest = this.heap[left].val < this.heap[right].val? left : right;
-                          }
-
-                          if (this.heap[current].val < this.heap[smallest].val) break;
-
-                          this.swap(current, smallest);
-
-                          current = smallest;
-                          left    = current * 2 + 1;
-                          right   = current * 2 + 2;
-                      }
-
-                      return result;
-                  }
-
-                  swap(entryA, entryB) {
-                      let temp = this.heap[entryA];
-                      this.heap[entryA] = this.heap[entryB];
-                      this.heap[entryB] = temp;
-                  }
-              }
+              // Heap Implementation in Blog Posts.
             </code>
           </pre>
 
           <p class="section-text">
             The runtime will be \(O((k-1)\log{n-k-1})\), and the space is \(O(n-k-1)\).
+          </p>
+
+          <p class="section-text">
+            The best way to solve this problem might be to use Binary Search
+            to find the \(k^{th}\) smallest element. First, we need to realize
+            that the \(k^{th}\) smallest element is the element that has \(k\)
+            elements smaller than or equal to it. So, if we can find such
+            element, then that is the answer we're looking for.
+          </p>
+
+          <p class="section-text">
+            To achieve this, first we need to define a low and high pointer.
+            In traditional Binary Search, the low and high pointers are references
+            to the index of the array, but in this case, we cannot use the index
+            approach because the array is not sorted in one direction. We want
+            let the low pointer be the reference to the smallest element in our
+            search space, and similarly the high pointer should reference the
+            largest element in our search space. We calculate the mid pointer
+            by taking the average of low and high. Now, count all the elements
+            in the matrix that is less than or equal to mid. If the count is less
+            than \(k\) then our mid needs to be larger, hence we can reduce our
+            search space by updating \(low = mid + 1\). Similarly, if count
+            is greater than or equal to \(k\) then our mid needs to becomes smaller
+            hence, we update \(high = mid\). The reason why we assign these values
+            to update low and high becomes obvious when you try to play around
+            with an array of two elements where both elements are one less than
+            the other. When both pointers meet, this is the \(k^{th}\) smallest
+            element we're looking for.
+          </p>
+
+          <p class="section-text">
+            However, one might have doubt that high and low might not meet at
+            an element that's in the matrix because of the way we calculate mid.
+            We can easily prove that high and low will infact meet at an element
+            that's inside the matrix. First, let's get some intuition that
+            low and high will always meet. Imagine we have an array \([4,5]\),
+            if we want to update low then \(low = mid + 1 = 4 + 1 = 5\) hence
+            low meets with high. Now, if we high needs to update then
+            \(high = mid = 4\) hence they meet once again. So now, the only doubt
+            left is, can they meet at a number that's not an element of the matrix?
+            Well, let's play around with another example where our
+            input array is \([1,3,100]\) and let \(k=2\). To check if high and low
+            can meet at a number that's not an element of the matrix, like for
+            example, at the number between \(1\) and \(3\) exclusively (which is 2), in order
+            for high even get to that position we need to satisfy \(count \geq k\).
+            But, there is only one element that's less than or equal to 2, so
+            it's NOT possible for high pointer to get there. Similarly, low and
+            high cannot meet at an element between \(3\) and \(100\) exclusively
+            for the same reason because low cannot get to that position.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var kthSmallest = function(matrix, k) {
+                  let low  = matrix[0][0];
+                  let high = matrix[matrix.length - 1][matrix.length - 1];
+
+                  while (low < high) {
+                      const mid = Math.floor((low + high) / 2);
+                      let count = 0;
+
+                      count = countNums(matrix, mid);
+
+                      if (count < k) {
+                          low = mid + 1;
+                      } else {
+                          high = mid;
+                      }
+                  }
+
+                  return low;
+              };
+
+              var countNums = function(matrix, target) {
+                  let row   = matrix.length - 1;
+                  let col   = 0;
+                  let count = 0;
+
+                  while (row >= 0 && col < matrix.length) {
+                      if (matrix[row][col] > target) {
+                          row--;
+                      } else {
+                          count += row + 1; // count all elements above this row. (inclusive)
+                          col++;
+                      }
+                  }
+
+                  return count;
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime is approximately \(O(\log{H - L})\) where \(H\) and \(L\)
+            are the largest and smallest elements in the matrix respectively.
+            And the space is constant.
           </p>
         </div>
       </div>
