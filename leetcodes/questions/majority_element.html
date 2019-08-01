@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Majority Element</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            169. Majority Element
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given an array of size n, find the majority element. The majority
+              element is the element that appears <strong>more than</strong> ⌊ n/2 ⌋ times.
+            </p>
+            <p class="section-text problem-text">
+              You may assume that the array is non-empty and the majority
+              element always exist in the array.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: [2,2,1,1,1,2,2]
+Output: 2
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            When we need to keep counts of elements, hashtable is always the
+            to-go option. But, let's start with more trivial approaches first,
+            which is just to brute the input array. For each elements, count
+            all of its occurrences in the array then check if its counts is
+            greater than ⌊ n/2 ⌋.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var majorityElement = function(nums) {
+                  const majority = Math.floor(nums.length / 2);
+
+                  for (let i = 0; i < nums.length; ++i) {
+                      let count = 0;
+                      for (let j = 0; j < nums.length; ++j) {
+                          if (nums[j] === nums[i]) count++;
+                          if (count > majority) return nums[i];
+                      }
+                  }
+
+                  return undefined;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">Runtime: \(O(n^2)\), Space: \(O(1)\).</p>
+
+          <p class="section-text">
+            Whenever we're given an array, try to sort it and see if it simplifies
+            the problem. In this case, yes, if the array is sorted we can just
+            count the numbers linearly.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var majorityElement = function(nums) {
+                  const majority = Math.floor(nums.length / 2);
+                  let   i        = 0;
+
+                  nums.sort((a, b) => a-b);
+
+                  while(i < nums.length) {
+                      let count = 0;
+                      let start = i;
+
+                      while (nums[i] === nums[start]) {
+                          count++;
+                          i++;
+                      }
+
+                      if (count > majority) return nums[start];
+                  }
+
+                  return undefined;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(n\log{n})\), Space: \(O(1)\).
+          </p>
+
+          <p class="section-text">
+            Ok, now that we've gone through brute forcing and sorting, let's
+            utilize some space to create a hashtable to optimize the runtime.
+            The idea is to keep track of the occurrences of each number inside
+            the hashtable. Whenever we found an element whose occurence is greater
+            than ⌊ n/2 ⌋, we return it.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var majorityElement = function(nums) {
+                  const majority = Math.floor(nums.length / 2);
+                  let   table    = {};
+
+                  for (let num of nums) {
+                      table[num] = (table[num] || 0) + 1;
+
+                      if (table[num] > majority) return num;
+                  }
+
+                  return undefined;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(n)\).
+          </p>
+
+          <p class="section-text">
+            We can try to optimize the speed further by checking if there's any
+            way we can solve this in logarithmic time. Take the input array
+            and draw a full binary out of it. Consider the base cases (leaves),
+            what do we want to return? To answer this, consider what's the
+            problem we're trying to solve with this recursive method. We're
+            trying to find the element that appears the most in the given array.
+            Hence, if we get an input of a size 1 array, that element IS the
+            majority of the array, hence we just return that element. Now,
+            consider we're at the \(N-1\) level of the tree. Here, each node
+            have two children, and they should get back the return values of
+            both of their children. If both children returned the same value,
+            that means that number appeared most in the current array, hence we
+            can return the same number. However, if the children didn't return
+            the same value, we have to loop through the current array and check
+            if the left value appeared more or the right, then return that value.
+            At the root node, assuming our recusive method is correct, we should
+            get back the correct answer.
+          </p>
+
+          <p class="section-text">
+            Unfortunately, for this algorithm, the worst case is that at every
+            call, we need to run through the current subarray and check if left
+            or right is the majority.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var majorityElement = function(nums) {
+                  const lo = 0;
+                  const hi = nums.length - 1;
+
+                  return majorityHelper(nums, lo, hi);
+              };
+
+              var majorityHelper = function(nums, lo, hi) {
+                  if (lo === hi) return nums[lo];
+
+                  const mi = Math.floor((lo + hi) / 2);
+
+                  const left  = majorityHelper(nums, lo    , mi);
+                  const right = majorityHelper(nums, mi + 1, hi);
+
+                  if (left === right) return left;
+
+                  let leftCount  = 0;
+                  let rightCount = 0;
+
+                  for (let i = lo; i <= hi; ++i) {
+                      if (nums[i] === left) leftCount++;
+                      if (nums[i] === right) rightCount++;
+                  }
+
+                  return leftCount > rightCount? left : right;
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(n\log{n})\), Space: \(O(\log{n})\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
