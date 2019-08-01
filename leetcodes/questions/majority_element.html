@@ -202,6 +202,42 @@ Output: 2
           <p class="section-text">
             Runtime: \(O(n\log{n})\), Space: \(O(\log{n})\).
           </p>
+
+          <p class="section-text">
+            The best solution for determining the majority elements in an array
+            is to use the Boyer-Moore algorithm. Basically, imagine we have an
+            array of integers. We begin by selecting the first element as our
+            'candidate'. Imagine this candidate as a bomb that we have in hand.
+            So, so far, we have 1 bomb. Then, at the next element, we check if
+            this element is the same number as our candidate. If it is, we
+            increase our bomb counts. However, if it's not, here's where the fun
+            begins. We use a bomb from our inventory and bomb this element.
+            When our bomb counts reached 0, we select a new candidate as to be
+            the bomb. At the end of the array, if our bomb count is 0, then obviously
+            there are no majority elements. Otherwise, our candidate is the majority.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var majorityElement = function(nums) {
+                  let candidate = null;
+                  let bombs     = 0;
+
+                  for (let num of nums) {
+                      if (!bombs) candidate = num;
+
+                      if (num === candidate) bombs++;
+                      else bombs--; // boom
+                  }
+
+                  return candidate;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(1)\).
+          </p>
         </div>
       </div>
     </div>
