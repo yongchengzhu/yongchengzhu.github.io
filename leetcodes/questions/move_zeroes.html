@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Move Zeroes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            283. Move Zeroes
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given an array nums, write a function to move all 0's to the end
+              of it while maintaining the relative order of the non-zero elements.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: [0,1,0,3,12]
+Output: [1,3,12,0,0]
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            My first thought was to move all the zeroes to the end of the array
+            by swapping. But that didn't work out because the numbers that are
+            nonzero will not be kept in the same order. So, I have to look at
+            this problem differently. If I swap the nonzero numbers to the front
+            then, all the zeroes will be at the back.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var moveZeroes = function(nums) {
+                  let swapIndex = 0;
+
+                  for (let i = 0; i < nums.length; ++i) {
+                      if (nums[i] !== 0) {
+                          if (i !== swapIndex) {
+                              [nums[i], nums[swapIndex]] = [nums[swapIndex], nums[i]];
+                          }
+                          swapIndex++;
+                      }
+                  }
+
+                  return nums;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            This algorithm takes linear time and constant space.
+          </p>
+
+          <p class="section-text">
+            However, swapping takes 3 operations. We can optimize the algorithm
+            by avoiding the need to swap. We can simply loop through the nums
+            array and find all the nonzero elements and copy & paste them to
+            the front of the array in order. (Takes 1 operation.) After putting
+            all the nonzeroes to the front, just write 0's to all the slots after
+            the nonzeroes. (Takes 1 operation.)
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var moveZeroes = function(nums) {
+                  let i          = 0;
+                  let replaceIdx = 0;
+
+                  while (i < nums.length || replaceIdx < nums.length) {
+                      if (nums[i] !== 0) nums[replaceIdx++] = nums[i];
+
+                      if (i < nums.length) i++;
+
+                      while(i >= nums.length && replaceIdx < nums.length) {
+                          nums[replaceIdx++] = 0;
+                      }
+                  }
+
+                  return nums;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The runtime and space complexity is the same with Big O analysis,
+            but should be a little bit faster considering we reduced the amount
+            of operations.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
