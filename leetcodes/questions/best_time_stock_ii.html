@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Best Time to Buy and Sell Stock II</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            122. Best Time to Buy and Sell Stock II
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Say you have an array for which the ith element is the price of a given stock on day i.
+            </p>
+            <p class="section-text problem-text">
+              Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).
+            </p>
+            <p class="section-text problem-text">
+              Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: [7,1,5,3,6,4]
+Output: 7
+Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.
+             Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            This is sort of similar to part 1, but this time we are looking for
+            subarrays that are in ascending order and hence again, the first element
+            must be the smallest element in the subarray. For each subarray,
+            find the maximum profit, then accumulate them together and we have the
+            result.
+          </p>
+
+          <p class="section-text">
+            Again, we can use the sliding window approach. Let left pointer point
+            to the first element, and the second pointer point to the second element.
+            We want to calculate the new profit only if the right pointer is pointing
+            to an element that is greater than whatever it's was pointing to before
+            (it's previous element); it is guaranteed that this new profit is greater
+            than the previous profit for the current subarray. However, if the
+            right pointer to pointing to an element that's less than it's previous
+            element, then we need to shrink the sliding window and start a new
+            subarray; let left pointer jump to right pointer. And also, add the
+            current profit to the total sum and reset profit to 0. There's an edge
+            where if the entire input array is already in ascending order, then
+            our profit will never be accumulated to our total sum, hence before
+            we return our total sum, we need to check if profit is greater than 0.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var maxProfit = function(prices) {
+                  let result = 0;
+                  let profit = 0;
+
+                  for (let l = 0, r = 1; r < prices.length; ++r) {
+                      if (prices[r] > prices[r - 1]) {
+                          profit = prices[r] - prices[l];
+                      } else {
+                          result += profit;
+                          profit  = 0;
+                          l       = r;
+                      }
+                  }
+
+                  return profit > 0? result + profit : result;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(1\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>

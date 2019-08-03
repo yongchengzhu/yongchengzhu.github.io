@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Best Time to Buy and Sell Stock III</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            123. Best Time to Buy and Sell Stock III
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Say you have an array for which the ith element is the price of a given stock on day i.
+            </p>
+            <p class="section-text problem-text">
+              Design an algorithm to find the maximum profit. You may complete at most two transactions.
+            </p>
+            <p class="section-text problem-text">
+              Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: [3,3,5,0,0,3,1,4]
+Output: 6
+Explanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+             Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            My first approach to this problem was to try to make as many transactions
+            as possible and find the maximum profits at all intervals where the
+            stock prices are increasing. Then, take the top 2 profits and add
+            them together. However, this approach doesn't account the case where
+            the input array is \([1,2,4,2,5,7,2,4,9,0]\). My code calculated
+            the maximum profit to be \(12\) (which is wrong), and the correct
+            output happened to been \(13\). The problem was that I calculate
+            the profits at 3 intervals resulting in three different maximum
+            profits \(3, 5, 7\), which then my code would take \(output = 5 + 7 = 12\).
+            However, the correct profits should've been calculated only at 2 intervals
+            which would yielded the maximum profits \(6, 7\) and the output
+            would be correct in this case.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var maxProfit = function(prices) {
+                  let topTwo = new Array(2).fill(0);
+                  let result = 0;
+                  let profit = 0;
+
+                  for (let l = 0, r = 1; r < prices.length; ++r) {
+                      if (prices[r] > prices[r - 1]) {
+                          profit = prices[r] - prices[l];
+                      } else {
+                          l = r;
+                          updateTopTwo(topTwo, profit);
+                          profit = 0;
+                      }
+                  }
+
+                  if (profit > 0) updateTopTwo(topTwo, profit);
+
+                  return topTwo[0] + topTwo[1];
+              };
+
+              var updateTopTwo = function(topTwo, profit) {
+                  if (profit > topTwo[0]) {
+                      topTwo[1] = topTwo[0];
+                      topTwo[0] = profit;
+                  } else {
+                      topTwo[1] = Math.max(topTwo[1], profit);
+                  }
+              }
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(1)\). However, this algorithm doesn't
+            produce the correct output for all cases.
+          </p>
+
+          <p clas="section-text">
+            
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
