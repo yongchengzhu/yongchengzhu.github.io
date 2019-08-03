@@ -53,20 +53,24 @@ Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-
       <div class="row">
         <div class="col-12">
           <p class="section-text">
-            By intuition, we are searching subarrays from the input array, where
-            the stocks are increasing in direction. And from these subarrays,
-            we have \(profit = price_{highest} - price_{lowest}\). Hence, we just
-            need to keep track of the maximum profit as we check all these
-            ascendingly sorted subarrays.
+            By intuition, we are searching for subarrays from the input array,
+            where the first element in each subarrays are the smallest elements
+            in their subarrays. The maximum profit in each subarray would be
+            the largest element subtracted by the first element. We just need to
+            keep track of a maximum profit for all the subarrays.
           </p>
 
           <p class="section-text">
-            I would approach this problem with a sliding window. If the right
-            pointer is greater than the left pointer, then calculate the current profit
-            and update the maximum profit so far. But, if the left pointer is
-            greater than the right pointer, then we should not do anything to our profit but
-            to look for the next subarray that has increasing values; make left
-            pointer jump to right pointer.
+            I would approach this problem with a sliding window. Let the left
+            pointer point to the first element in the input array, and let the
+            right pointer point to the second element. If the right pointer is
+            pointing to an element that's greater than the left pointer, then
+            that means the left pointer is not pointing to the smallest element
+            in the current subarray hence we need to make left pointer jump to
+            the right pointer. If the right pointer does indeed point to an
+            element that's greater than the left pointer, then calculate their
+            differences and keep track of a maximum profit until the right
+            pointer goes out of range.
           </p>
 
           <pre>
