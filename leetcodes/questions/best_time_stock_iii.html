@@ -106,7 +106,36 @@ Explanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-
           </p>
 
           <p clas="section-text">
-            
+            The correct solution to this problem is unsurprising simple, but not
+            intuitive at first glance. The idea is to loop through the input array,
+            and for each day in the stock market, calculate the maximum profit
+            for the first transaction. Then, calculate the maximum profit for the
+            second transaction by using the profit we earned from the first transaction.
+            That's it!
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var maxProfit = function(prices) {
+                  let maxProfit1 = 0;
+                  let maxProfit2 = 0;
+                  let minPrice1  = Infinity;
+                  let minPrice2  = Infinity;
+
+                  for (let price of prices) {
+                      minPrice1  = Math.min(minPrice1 , price);
+                      maxProfit1 = Math.max(maxProfit1, price - minPrice1);
+                      minPrice2  = Math.min(minPrice2 , price - maxProfit1);
+                      maxProfit2 = Math.max(maxProfit2, price - minPrice2);
+                  }
+
+                  return maxProfit2;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(1)\).
           </p>
         </div>
       </div>
