@@ -53,7 +53,45 @@ Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-
       <div class="row">
         <div class="col-12">
           <p class="section-text">
-            Working on this problem...
+            It's actually really similar to part III. Except, we have to create
+            extra space to store \(k\) transactions. I created a 2D array
+            where row 0 is the first transaction, row 1 is the second transaction,
+            and so on. And each entry in the array represents the maximum profit
+            that I can earn on that day and on that transaction.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var maxProfit = function(k, prices) {
+                  let table = new Array(k).fill().map(a => new Array(prices.length));
+
+                  if (!table.length) return 0;
+
+                  // Fill the first row. (First transaction.)
+                  for (let col = 0, row = 0, min = Infinity, profit = 0; col < table[row].length; ++col) {
+                      min = Math.min(min, prices[col]);
+                      profit = Math.max(profit, prices[col] - min);
+                      table[row][col] = profit;
+                  }
+
+                  // Fill in the rest.
+                  for (let row = 1; row < table.length; ++row) {
+                      let min = Infinity;
+                      let profit = 0;
+                      for (let col = 0; col < table[row].length; ++col) {
+                          min = Math.min(min, prices[col] - table[row - 1][col]);
+                          profit = Math.max(profit, prices[col] - min);
+                          table[row][col] = profit;
+                      }
+                  }
+
+                  return table[table.length - 1][table[0].length - 1];
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(N + N*k)\), Space: \(O(N * K)\).
           </p>
         </div>
       </div>
