@@ -93,6 +93,70 @@ Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-
           <p class="section-text">
             Runtime: \(O(N + N*k)\), Space: \(O(N * K)\).
           </p>
+
+          <p class="section-text">
+            This algorithm is fine, but it didn't account for the edge case such
+            that if \(k\) is too large then it will exceed time limit in leetcode.
+            We can simply check if \(k\) is more than half the size of the array
+            (imagine the extreme case where we buy on one day and sell on the next
+            day throughout the entire array, then the maximum amount of effective
+            transactions would be \(\frac{n}{2}\)),
+            then we can simply calculate the maximum profit we can make by making
+            as many transactions as possible. (Recall part II.)
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var maxProfit = function(k, prices) {
+                  if (k === 0) return 0;
+
+                  // If k exceeds maximum effective transaction amount.
+                  if (k > Math.floor(prices.length / 2)) {
+                      // Solve with part II's algorithm.
+                      let result = 0;
+                      let profit = 0;
+
+                      for (let left = 0, right = 1; right < prices.length; ++right) {
+                          if (prices[right] < prices[right - 1]) {
+                              result += profit;
+                              profit = 0;
+                              left = right;
+                          } else {
+                              profit = prices[right] - prices[left];
+                          }
+                      }
+
+                      return profit > 0? result + profit : result;
+                  }
+
+                  let table = new Array(k).fill().map(a => new Array(prices.length));
+
+                  // Fill the first row. (First transaction.)
+                  for (let col = 0, row = 0, min = Infinity, profit = 0; col < table[row].length; ++col) {
+                      min = Math.min(min, prices[col]);
+                      profit = Math.max(profit, prices[col] - min);
+                      table[row][col] = profit;
+                  }
+
+                  // Fill in the rest.
+                  for (let row = 1; row < table.length; ++row) {
+                      let min = Infinity;
+                      let profit = 0;
+                      for (let col = 0; col < table[row].length; ++col) {
+                          min = Math.min(min, prices[col] - table[row - 1][col]);
+                          profit = Math.max(profit, prices[col] - min);
+                          table[row][col] = profit;
+                      }
+                  }
+
+                  return table[table.length - 1][table[0].length - 1];
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            The complexity analysis remains the same.
+          </p>
         </div>
       </div>
     </div>
