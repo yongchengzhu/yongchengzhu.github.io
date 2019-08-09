@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Excel Sheet Column Number</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            171. Excel Sheet Column Number
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given a column title as appear in an Excel sheet, return its corresponding column number.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: "AB"
+Output: 28
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            For this problem, I recall how I would convert a binary number to
+            a base 10 number, or numbers from any base to base 10 in general.
+            $$digit_nbase^n + digit_{n-1}base^{n-1} + \cdots + digit_1base^1 + digit_0base^0$$
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var titleToNumber = function(s) {
+                  const offset = 'A'.charCodeAt(0) - 1;
+                  const n      = s.length;
+                  let   result = 0;
+
+                  for (let i = n - 1, e = 0; i >= 0; --i, ++e) {
+                      result += (s[i].charCodeAt(0) - offset) * Math.pow(26, e);
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(1)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
