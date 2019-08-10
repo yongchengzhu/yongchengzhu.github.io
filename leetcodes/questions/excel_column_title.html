@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Excel Sheet Column Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            168. Excel Sheet Column Title
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given a positive integer, return its corresponding column title as appear in an Excel sheet.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: 28
+Output: "AB"
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <p class="section-text">
+            This problem is a little more difficult than the last. We have to
+            take the base 10 integer and convert it into base 26. However,
+            the number 0 is not mapped to any letters in base 26. To make the
+            math simpler, let's shift the numbers down by 1 (for example,
+            A -> 0, B -> 1, ...). Now, we just need to take the input integer,
+            subtract it by 1 and then find the remainder. Then take the quotient
+            and find the remainder of that, and repeat this process until the
+            quotient reaches 0 and stop. The answer is simply the reverse order
+            of all the remainders we just found.
+          </p>
+
+          <pre>
+            <code class="language-javascript">
+              var convertToTitle = function(n) {
+                  const offset = 'A'.charCodeAt(0);
+                  let   remain = (n - 1) % 26;
+                  let   result = "";
+
+                  result = String.fromCharCode(remain + offset) + result;
+                  n      = Math.floor((n - 1) / 26);
+
+                  while (n !== 0) {
+                      remain = (n - 1) % 26;
+                      n      = Math.floor((n - 1) / 26);
+                      result = String.fromCharCode(remain + offset) + result
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(1)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
