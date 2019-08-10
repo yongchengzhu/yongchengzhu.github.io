@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Two Sum II - Input array is sorted</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            167. Two Sum II - Input array is sorted
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given an array of integers that is already <strong>sorted in ascending order</strong>, find two numbers such that they add up to a specific target number.
+            </p>
+            <p class="section-text problem-text">
+              The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2.
+            </p>
+            <ul class="section-text">
+              <li>Your returned answers (both index1 and index2) are not zero-based.</li>
+              <li>You may assume that each input would have <em>exactly</em> one solution and you may not use the <em>same</em> element twice.</li>
+            </ul>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: numbers = [2,7,11,15], target = 9
+Output: [1,2]
+Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Approach 1 -->
+          <h2 class="section-text approach-title">Approach 1: Brute Force</h2>
+          <p class="section-text">
+            We can start by brute forcing the for the solution. Simply check
+            every pair of numbers in the array, and if a pair happens to sum up
+            to the target then return the indices. (Add 1)
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var twoSum = function(numbers, target) {
+                  for (let i = 0; i < numbers.length; ++i) {
+                      for (let j = i + 1; j < numbers.length; ++j) {
+                          if (numbers[i] + numbers[j] === target) {
+                              return [i + 1, j + 1];
+                          }
+                      }
+                  }
+
+                  return [];
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^2)\), Space: \(O(1)\).
+          </p>
+          <!-- Approach 2 -->
+          <h2 class="section-text approach-title">Approach 2: Two-Pointers</h2>
+          <p class="section-text">
+            Place one pointer at the beginning and another pointer at the end
+            of the array. Compute the sum of the numbers at the two pointers.
+            If the sum is too large, then decrement the end pointer; if sum is
+            too small, then increment the start pointer. Repeat until the sum
+            equals to target.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var twoSum = function(numbers, target) {
+                  let start = 0, end = numbers.length - 1;
+
+                  while (start < end) {
+                      if      (numbers[start] + numbers[end] > target) end--;
+                      else if (numbers[start] + numbers[end] < target) start++;
+                      else    return [start + 1, end + 1];
+                  }
+
+                  return [];
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(1)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
