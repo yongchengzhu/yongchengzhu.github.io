@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Two Sum</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            1. Two Sum
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given an array of integers, return <strong>indices</strong> of the two numbers such that they add up to a specific target.
+            </p>
+            <p class="section-text problem-text">
+              You may assume that each input would have <em><strong>exactly</strong></em> one solution, and you may not use the same element twice.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Given nums = [2, 7, 11, 15], target = 9,
+
+Because nums[0] + nums[1] = 2 + 7 = 9,
+return [0, 1].
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Approach 1 -->
+          <h2 class="section-text approach-title">Approach 1: Brute Force</h2>
+          <p class="section-text">
+            We can start by brute forcing the for the solution. Simply check
+            every pair of numbers in the array, and if a pair happens to sum up
+            to the target then return the indices.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var twoSum = function(nums, target) {
+                  for (let i = 0; i < nums.length; ++i) {
+                      for (let j = i + 1; j < nums.length; ++j) {
+                          if (nums[i] + nums[j] === target) {
+                              return [i, j];
+                          }
+                      }
+                  }
+                  return [];
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^2)\), Space: \(O(1)\).
+          </p>
+          <!-- Approach 2 -->
+          <h2 class="section-text approach-title">Approach 2: Two-Pointers (Incorrect)</h2>
+          <p class="section-text">
+            If the array is sorted ascendingly, then we can use the two-pointers trick where
+            we place one pointer at the beginning and end of the array. Then,
+            compare the sum of the numbers at the two pointers with the target.
+            If the sum is larger than the target then the end pointer needs to
+            decrement, else the start pointer needs to increment. Repeat until
+            we find a sum that equals to the target.
+          </p>
+          <p class="section-text">
+            <strong>Problem:</strong> The indices that we return does not
+            map to the numbers in the unsorted array. Hence, this
+            approach will fail if we need to return the indices. (But will work
+            if the constraint was to return the number pair.)
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var twoSum = function(nums, target) {
+                  nums.sort((a, b) => a - b);
+
+                  let start = 0, end = nums.length - 1;
+
+                  while (start < end) {
+                      const sum = nums[start] + nums[end];
+                      if      (sum > target) end--;
+                      else if (sum < target) start++;
+                      else                   return [start, end];
+                  }
+
+                  return [];
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n \log{n})\), Space: \(O(1)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
