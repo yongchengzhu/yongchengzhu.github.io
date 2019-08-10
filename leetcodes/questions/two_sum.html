@@ -154,6 +154,32 @@ return [0, 1].
           <p class="section-text">
             Runtime: \(O(n)\), Space: \(O(n)\).
           </p>
+          <p class="section-text">
+            The logic can be simplified into one-pass. We can create two pointers,
+            one references to \(a\) and the other references to \(b\). At each
+            iteration, store the mapping into the hashtable then check if \(b\)
+            exists as a key in the hashtable. If it exists then simply return the indices.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var twoSum = function(nums, target) {
+                  let table = {};
+
+                  for (let a = 1, b = 0; a < nums.length; ++a, ++b) {
+                      table[target - nums[b]] = b;
+
+                      if (table.hasOwnProperty(nums[a])) {
+                          return [a, table[nums[a]]];
+                      }
+                  }
+
+                  return [];
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(n)\).
+          </p>
         </div>
       </div>
     </div>
