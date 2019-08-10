@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Two Sum IV - Input is a BST</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            653. Two Sum IV - Input is a BST
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given a Binary Search Tree and a target number, return true if there exist two elements in the BST such that their sum is equal to the given target.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input:
+    5
+   / \
+  3   6
+ / \   \
+2   4   7
+
+Target = 9
+
+Output: True
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Approach 1 -->
+          <h2 class="section-text approach-title">Approach 1: Inorder Tree Traversal & Two-Pointers</h2>
+          <p class="section-text">
+            A binary-search tree can always be turned into a sorted array in
+            linear time by performing an inorder tree traversal. Now that the
+            input is transformed into a sorted array, we can solve this using
+            the two-pointers approach from
+            <a href="./two_sum_ii.html">Two Sum II - Input array is sorted</a>.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var findTarget = function(root, k) {
+                  let sortedNums = [];
+                  inorderTraversal(root, sortedNums);
+
+                  let start = 0, end = sortedNums.length - 1;
+
+                  while (start < end) {
+                      if      (sortedNums[start] + sortedNums[end] > k) end--;
+                      else if (sortedNums[start] + sortedNums[end] < k) start++;
+                      else    return true;
+                  }
+
+                  return false;
+              };
+
+              var inorderTraversal = function(root, sortedNums) {
+                  if (!root) return;
+
+                  inorderTraversal(root.left, sortedNums);
+                  sortedNums.push(root.val);
+                  inorderTraversal(root.right, sortedNums);
+              }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(n)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
