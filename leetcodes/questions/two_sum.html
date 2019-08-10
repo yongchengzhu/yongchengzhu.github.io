@@ -110,6 +110,50 @@ return [0, 1].
           <p class="section-text">
             Runtime: \(O(n \log{n})\), Space: \(O(1)\).
           </p>
+          <!-- Approach 3 -->
+          <h2 class="section-text approach-title">Approach 3: Hash Table</h2>
+          <p class="section-text">
+            Let \(a\) and \(b\) be the pairs, and \(x\) be the target. Then we
+            have \(a + b = x\). This equation can be transformed into
+            \begin{align}
+              a &= x - b\label{eq:1}\\
+              -b &= a - x\label{eq:2}
+            \end{align}
+            To keep things simple, lets omit \eqref{eq:2} so we don't have to deal
+            with negative values. Equation \eqref{eq:1} tells us that if there
+            exists a pair \(a, b\) in the array that sums up to \(x\) then
+            there must exists an \(a\) such that \(a = x - b\). (Keep in mind
+             that \(a, b\) cannot be same element in the array.)
+          </p>
+          <p class="section-text">
+            Now, the algorithm becomes clear. First, store the mapping
+            \(x - b : b_{idx}\) in a hashtable. Then, loop through the array
+            again to check every element to see if its a key inside the
+            hashtable. If it is a key, we also have to check if they're different
+            elements. If both conditions are met, then we found the pair.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var twoSum = function(nums, target) {
+                  let table = {};
+
+                  for (let i = 0; i < nums.length; ++i) {
+                      table[target - nums[i]] = i;
+                  }
+
+                  for (let i = 0; i < nums.length; ++i) {
+                      if (table[nums[i]] && table[nums[i]] !== i) {
+                          return [table[nums[i]], i];
+                      }
+                  }
+
+                  return [];
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(n)\).
+          </p>
         </div>
       </div>
     </div>
@@ -117,6 +161,11 @@ return [0, 1].
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="../../js/prism.js"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+    </script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
     <script>
       $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
