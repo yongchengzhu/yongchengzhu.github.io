@@ -91,7 +91,7 @@ A solution set is:
             Runtime: \(O(n^4)\), Space: \(O(1)\).
           </p>
           <!-- Approach 2 -->
-          <h2 class="section-text approach-title">Approach 2: Two Sum & Two-Pointers</h2>
+          <h2 class="section-text approach-title">Approach 2: Two Sum (Inefficient) & Two-Pointers</h2>
           <p class="section-text">
             To make sure there are no duplicates in the result set, first sort
             the array. Simplify the problem into finding all the duplets that
@@ -141,11 +141,126 @@ A solution set is:
                           const current = nums[left];
                           while (nums[left] === current) left++;
                       }
-
                   }
 
                   return duplets;
               }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^2)\), Space: \(O(1)\).
+          </p>
+          <!-- Approach 2.1 -->
+          <h2 class="section-text approach-title">Approach 2.1: Two Sum (Optimized) & Two-Pointers</h2>
+          <p class="section-text">
+            The previous implementation of the method <strong>twoSum()</strong>
+            is inefficient and ugly. There's a few optimizations that can be
+            added to make the code run faster and look cleaner:
+            <ol>
+              <li>
+                There's no need to create another while loop to increment/decrement
+                the pointers after the comparison. Because if the next number is
+                a duplicate of the current, then on the next iteration the duplet
+                will yield the same sum hence will increment/decrement the same
+                pointer anyway.
+              </li>
+              <li>
+                When the sum of the duplet is equivalent to the target, then
+                we need to increment & decrement both pointers to the next
+                number that's not a duplicate. Because any number can only have
+                one compliment that sums up to a target; hence if one pointer
+                points to a different number, then it's impossible for the other
+                number to remain as a compliment of the current number.
+              </li>
+              <li>
+                In the main method <strong>threeSum()</strong>, since we are
+                trying to find triplets that sum up to 0 <em>and</em> the array
+                is sorted, so if the first element is positive then it's impossible
+                to find any triplets that sum up to 0.
+              </li>
+            </ol>
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var threeSum = function(nums) {
+                  let result = [];
+
+                  nums.sort((a, b) => a - b);
+
+                  if (nums[0] > 0) return result;
+
+                  for (let i = 0; i < nums.length - 2; ++i) {
+                      if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+                      let duplets = twoSum(nums, i + 1, nums.length - 1, -nums[i]);
+
+                      if (duplets.length) {
+                          duplets.map(duplet => duplet.push(nums[i]));
+                          result.push(...duplets);
+                      }
+                  }
+
+                  return result;
+              };
+
+              var twoSum = function(nums, start, end, target) {
+                  let duplets = [];
+                  let left    = start, right = end;
+
+                  while (left < right) {
+                      if      (nums[left] + nums[right] < target) left++;
+                      else if (nums[left] + nums[right] > target) right--;
+                      else {
+                          duplets.push([nums[left], nums[right]]);
+                          while (nums[left]  === nums[left + 1]  && left < right) left++;
+                          while (nums[right] === nums[right - 1] && left < right) right--;
+                          left++; right--;
+                      }
+                  }
+
+                  return duplets;
+              }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^2)\), Space: \(O(1)\).
+          </p>
+          <!-- Approach 2.2 -->
+          <h2 class="section-text approach-title">
+            Approach 2.2: Two Sum & Two-Pointers (One-pass)
+          </h2>
+          <p class="section-text">
+            Instead of calling a helper function to compute a list of duplets,
+            and then unnecessarily loop through the list of duplets to push in
+            a number; we can easily make triplets in one-pass by omitting the
+            need of a helper function.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var threeSum = function(nums) {
+                  let result = [];
+
+                  nums.sort((a, b) => a - b);
+
+                  if (nums.length && nums[0] > 0) return result;
+
+                  for (let i = 0; i < nums.length - 2; ++i) {
+                      if (i > 0 && nums[i] === nums[i - 1]) continue;
+                      let left = i + 1, right = nums.length - 1;
+                      while (left < right) {
+                          if      (nums[left] + nums[right] < -nums[i]) left++;
+                          else if (nums[left] + nums[right] > -nums[i]) right--;
+                          else {
+                              result.push([nums[i], nums[left], nums[right]]);
+                              while (left < right && nums[left]  === nums[left  + 1]) left++;
+                              while (left < right && nums[right] === nums[right - 1]) right--;
+                              left++; right--;
+                          }
+                      }
+                  }
+
+                  return result;
+              };
             </code>
           </pre>
           <p class="section-text">
