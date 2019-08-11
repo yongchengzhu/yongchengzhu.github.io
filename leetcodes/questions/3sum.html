@@ -90,6 +90,67 @@ A solution set is:
           <p class="section-text">
             Runtime: \(O(n^4)\), Space: \(O(1)\).
           </p>
+          <!-- Approach 2 -->
+          <h2 class="section-text approach-title">Approach 2: Two Sum & Two-Pointers</h2>
+          <p class="section-text">
+            To make sure there are no duplicates in the result set, first sort
+            the array. Simplify the problem into finding all the duplets that
+            sum up to a target. This can be solved by using the two-pointers
+            algorithm from <a href="./two_sum_ii.html">Two Sum II</a>, however
+            additional logic is needed for finding <strong>all</strong> duplets
+            that sum up to the target and make sure that there are no duplicated
+            duplets. Now that we have the helper function to compute 2Sum, we just
+            need to loop through the array and for each distinct number \(k\) call the
+            helper function to find all the duplets that sums up to \(-k\). Finally,
+            just push \(k\) into all the duplets.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var threeSum = function(nums) {
+                  let result = [];
+
+                  nums.sort((a, b) => a - b);
+
+                  for (let i = 0; i < nums.length - 2; ++i) {
+                      if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+                      let duplets = twoSum(nums, i + 1, nums.length - 1, -nums[i]);
+
+                      if (duplets.length) {
+                          duplets.map(duplet => duplet.push(nums[i]));
+                          result.push(...duplets);
+                      }
+                  }
+
+                  return result;
+              };
+
+              var twoSum = function(nums, start, end, target) {
+                  let duplets = [];
+                  let left    = start, right = end;
+
+                  while (left < right) {
+                      if (nums[left] + nums[right] < target) {
+                          const current = nums[left];
+                          while (nums[left] === current && left < right) left++;
+                      } else if (nums[left] + nums[right] > target) {
+                          const current = nums[right];
+                          while (nums[right] === current && left < right) right--;
+                      } else {
+                          duplets.push([nums[left], nums[right]]);
+                          const current = nums[left];
+                          while (nums[left] === current) left++;
+                      }
+
+                  }
+
+                  return duplets;
+              }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^2)\), Space: \(O(1)\).
+          </p>
         </div>
       </div>
     </div>
