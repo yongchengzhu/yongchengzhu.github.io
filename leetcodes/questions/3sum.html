@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>3Sum</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            15. 3Sum
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
+            </p>
+            <p class="problem-header">Note:</p>
+            <p class="section-text">
+              The solution set must not contain duplicate triplets.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Given array nums = [-1, 0, 1, 2, -1, -4],
+
+A solution set is:
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Approach 1 -->
+          <h2 class="section-text approach-title">Approach 1: Brute Force (Time Limit Exceeded)</h2>
+          <p class="section-text">
+            Generate all possible triplets. Check if their sum is 0 and verify
+            if this triplet is not already contained in the result set. If
+            both of these conditions are met, sort (for easier verification)
+            the triplet and push it into the result set.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var threeSum = function(nums) {
+                  let result = [];
+
+                  for (let i = 0; i < nums.length; ++i) {
+                      for (let j = i + 1; j < nums.length; ++j) {
+                          for (let k = j + 1; k < nums.length; ++k) {
+                              if (nums[i] + nums[j] + nums[k] === 0) {
+                                  let triplet = [nums[i], nums[j], nums[k]].sort((a,b) => a-b);
+                                  let duplicate = false;
+
+                                  for (let l = 0; l < result.length; ++l) {
+                                      if (result[l].toString() === triplet.toString()) duplicate = true;
+                                  }
+
+                                  if (!duplicate) result.push(triplet);
+                              }
+                          }
+                      }
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^4)\), Space: \(O(1)\).
+          </p>
+          <!-- Approach 2 -->
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
