@@ -127,6 +127,47 @@ Output: True
           <p class="section-text">
             Runtime: \(O(n)\), Space: \(O(n)\).
           </p>
+          <!-- Approach 3 -->
+          <h2 class="section-text approach-title">Approach 3: Breadth-first Search & Hash Set</h2>
+          <p class="section-text">
+            Similar to previous approach, but let's use breadth-first search
+            instead.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var findTarget = function(root, k) {
+                  let set = new Set([]);
+
+                  return breadthFirstSearch(root, k, set);
+              };
+
+              var breadthFirstSearch = function(root, k, set) {
+                  let queue    = [];
+                  let current  = root;
+
+                  if (current) queue.unshift(current);
+
+                  while (queue.length) {
+                      const len = queue.length;
+
+                      for (let i = 0; i < len; ++i) {
+                          current = queue.pop();
+
+                          if (set.has(current.val)) return true;
+                          else set.add(k - current.val);
+
+                          if (current.left)  queue.unshift(current.left);
+                          if (current.right) queue.unshift(current.right);
+                      }
+                  }
+
+                  return false;
+              }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(w)\) where \(w\) is the width of the tree.
+          </p>
         </div>
       </div>
     </div>
