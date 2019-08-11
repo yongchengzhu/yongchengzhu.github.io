@@ -90,6 +90,43 @@ Output: True
           <p class="section-text">
             Runtime: \(O(n)\), Space: \(O(n)\).
           </p>
+          <!-- Approach 2 -->
+          <h2 class="section-text approach-title">Approach 2: Preorder Tree Traversal & Hash Set</h2>
+          <p class="section-text">
+            Let \(a,b\) be two different numbers. If \(a + b = k\), then we also
+            have \(a = k - b\). As we traverse down the binary-search tree,
+            at every node \(a\) we visit, check if the value is inside the hashset. If
+            it's already inside the hashset then we can stop traversing (including
+            the right subtree) and return <strong>true</strong> all the way back
+            up to the root. However, if the node value \(b\) is not inside the hashset,
+            then store \(k - b\) into the hashset and continue the traversal. Of
+            course, if we traversed down to a <em>null</em> node then return <strong>false</strong>,
+            because an empty tree cannot have a pair that sums up to \(k\).
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var findTarget = function(root, k) {
+                  let set = new Set([]);
+
+                  return preorderTraversal(root, k, set);
+              };
+
+              var preorderTraversal = function(root, k, set) {
+                  if (!root)             return false;
+                  if (set.has(root.val)) return true;
+
+                  set.add(k - root.val);
+
+                  const left  =              preorderTraversal(root.left , k, set);
+                  const right = left? true : preorderTraversal(root.right, k, set);
+
+                  return left || right;
+              }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(n)\).
+          </p>
         </div>
       </div>
     </div>
