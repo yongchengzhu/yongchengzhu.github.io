@@ -75,6 +75,66 @@ The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
           <p class="section-text">
             Runtime: \(O(n^3)\), Space: \(O(1)\).
           </p>
+          <h2 class="section-text approach-title">Approach 2: Search Sorted Matrix</h2>
+          <p class="section-text">
+            This problem can be simplified into solving for <strong>2Sum Closest</strong>.
+            Finding a duplet that sums up to the closest target can be achieved
+            by first sorting the array and then map it into a 2D matrix. However,
+            we won't be searching through the entire matrix; search only the
+            top half or bottom half excluding the diagonal elements because
+            the top and bottom halves are just mirrors of each other separated by the diagonal elements.
+            This algorithm is a mini-version of <a href="./search_a_2d_matrix_ii.html">Search A 2D Matrix II</a>.
+          </p>
+          <p class="section-text">
+            Now for the main problem. First, the array must be sorted so that
+            the helper method can turn it into a sorted matrix for searching.
+            To start, just loop through the sorted array and for each non-duplicated
+            number, pass the following subarray into the helper method with
+            target as \(target - nums[i]\). With the returned sum from the helper
+            method, add the current number to it and we have the sum of a triplet.
+            Finally, check if the distance between this sum and the target is
+            closer than what we already have and update accordingly. Repeat until end of loop.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var threeSumClosest = function(nums, target) {
+                  let result = Infinity;
+
+                  nums.sort((a, b) => a - b);
+
+                  for (let i = 0; i < nums.length - 2; ++i) {
+                      if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+                      const twoSum = twoSumClosest(nums, target - nums[i], i + 1, nums.length - 1);
+
+                      if (Math.abs(target - (twoSum + nums[i])) < Math.abs(target - result)) {
+                          result = twoSum + nums[i];
+                      }
+                  }
+
+                  return result;
+              };
+
+              var twoSumClosest = function(nums, target, start, end) {
+                  let result = nums[start] + nums[end];
+
+                  for (let row = end, col = start; row !== col; ) {
+                      if      (nums[row] + nums[col] > target) row--;
+                      else if (nums[row] + nums[col] < target) col++;
+                      else                                     return nums[row] + nums[col];
+
+                      if (Math.abs(target - (nums[row] + nums[col])) < Math.abs(target - result) && row !== col) {
+                          result = nums[row] + nums[col];
+                      }
+                  }
+
+                  return result;
+              }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^2)\), Space: \(O(1)\).
+          </p>
         </div>
       </div>
     </div>
