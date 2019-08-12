@@ -135,6 +135,88 @@ The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
           <p class="section-text">
             Runtime: \(O(n^2)\), Space: \(O(1)\).
           </p>
+          <!-- Approach 3 -->
+          <h2 class="section-text approach-title">Approach 3: Two-Pointers</h2>
+          <p class="section-text">
+            To search for the <strong>2Sum Closest</strong>, the two-pointers
+            algorithm that I used for <a href="./two_sum_ii.html">Two Sum II</a>
+            can be adjusted to search for the closest target instead. However,
+            after coding this algorithm up and then looking back at my previous
+            approach, the code appears to be exactly the same; meaning that this algorithm
+            can be interpreted in different ways but exactly the same behind the
+            scenes.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var threeSumClosest = function(nums, target) {
+                  let result = Infinity;
+
+                  nums.sort((a, b) => a - b);
+
+                  for (let i = 0; i < nums.length - 2; ++i) {
+                      if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+                      const twoSum = twoSumClosest(nums, target - nums[i], i + 1, nums.length - 1);
+
+                      if (Math.abs(target - (twoSum + nums[i])) < Math.abs(target - result)) {
+                          result = twoSum + nums[i];
+                      }
+                  }
+
+                  return result;
+              };
+
+              var twoSumClosest = function(nums, target, start, end) {
+                  let closest = nums[start] + nums[end];
+
+                  for (let left = start, right = end; start < end; ) {
+                      if      (nums[start] + nums[end] < target) start++;
+                      else if (nums[start] + nums[end] > target) end--;
+                      else                                       return nums[start] + nums[end];
+
+                      if (Math.abs(target - (nums[start] + nums[end])) < Math.abs(target - closest) && start < end) {
+                          closest = nums[start] + nums[end];
+                      }
+                  }
+
+                  return closest;
+              }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^2)\), Space: \(O(1)\).
+          </p>
+          <!-- Approach 3.1 -->
+          <h2 class="section-text approach-title">Approach 3.1: Two-Pointers Optimized</h2>
+          <p class="section-text">
+            The logic of the previous approach can be cleaned. There's no need
+            to create a helper function to return the sum of a duplet and then
+            compute the triplet; we can compute the triplet sum in the get-go easily.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var threeSumClosest = function(nums, target) {
+                  nums.sort((a, b) => a - b);
+
+                  let result = Infinity;
+
+                  for (let i = 0; i < nums.length - 2; ++i) {
+                      if (i > 0 && nums[i] === nums[i - 1]) continue;
+                      for (let start = i + 1, end = nums.length - 1; start < end; ) {
+                          if (Math.abs(target - (nums[i] + nums[start] + nums[end])) < Math.abs(target - result)) {
+                              result = nums[i] + nums[start] + nums[end];
+                          }
+
+                          if      (nums[start] + nums[end] < target - nums[i]) start++;
+                          else if (nums[start] + nums[end] > target - nums[i]) end--;
+                          else    return nums[i] + nums[start] + nums[end];
+                      }
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
         </div>
       </div>
     </div>
