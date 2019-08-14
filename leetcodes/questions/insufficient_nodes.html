@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Insufficient Nodes in Root to Leaf Paths</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            1080. Insufficient Nodes in Root to Leaf Paths
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given the root of a binary tree, consider all root to leaf paths: paths from the root to any leaf.  (A leaf is a node with no children.)
+            </p>
+            <p class="section-text problem-text">
+              A node is insufficient if every such root to leaf path intersecting this node has sum strictly less than limit.
+            </p>
+            <p class="section-text problem-text">
+              Delete all insufficient nodes simultaneously, and return the root of the resulting binary tree.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <img src="https://assets.leetcode.com/uploads/2019/06/05/insufficient-11.png" style="width: 440px; height: auto;">
+                  <div class="pre-text">
+Input: root = [1,2,3,4,-99,-99,7,8,9,-99,-99,12,13,-99,14], limit = 1
+                  </div>
+                  <img src="https://assets.leetcode.com/uploads/2019/06/05/insufficient-2.png" style="width: 258px; height: auto;">
+                  <div class="pre-text">
+Output: [1,2,3,4,null,null,7,8,9,null,14]
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Approach 1 -->
+          <h2 class="section-text approach-title">Approach 1: Post-order Traversal</h2>
+          <p class="section-text">
+            Working on this solution...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
