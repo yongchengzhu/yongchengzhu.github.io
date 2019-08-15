@@ -57,7 +57,52 @@ Output: [1,2,3,4,null,null,7,8,9,null,14]
           <!-- Approach 1 -->
           <h2 class="section-text approach-title">Approach 1: Post-order Traversal</h2>
           <p class="section-text">
-            Working on this solution...
+            First consider the base cases. If the given root node is null, then
+            an empty tree should be returned because there are no nodes to begin
+            with. If the root node is not null but doesn't have any children,
+            then check if the value of this node is \(\ge\) limit. If yes,
+            then return the root, else return null.
+          </p>
+          <p class="section-text">
+            Now that the base cases are taken care of, let's consider the case where the input is a tree with a root node and two children.
+            The problem now is, how do we update the parameters in the recursive
+            call? There are two arguments to consider: root and limit. The root
+            is straightforward, just visit root.left on first call and root.right
+            on the following call to achieve depth-first search traversal. For the
+            limit argument, I imagine that this argument means the amount of distance
+            that the tree is required to travel from the root down to any leaves.
+            And each node value denotes the amount of distance from the current
+            node to the next node. Hence, if we travel from root to its children
+            then subtract the root value from the distance (limit) as the new limit for
+            the children.
+          </p>
+          <p class="section-text">
+            When the base cases are reached, either a node is returned or null is
+            returned. In this problem, we need to modify the tree, so we should
+            assign these return values to root.left and root.right. Consider
+            the case where the current node has recursively called the function
+            on its children and the calls returned back with either a node
+            or null value. If one or both children has gotten a node returned back
+            that means the current node has at least one path that sums up to
+            the limit. If both children are assigned null values, then that means
+            no path intersecting the current node has a sum that's \(\ge\) limit,
+            hence the current node should be deleted; return null.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var sufficientSubset = function(root, limit) {
+                  if (!root) return root;
+                  if (!root.left && !root.right) return root.val >= limit? root : null;
+
+                  root.left  = sufficientSubset(root.left , limit - root.val);
+                  root.right = sufficientSubset(root.right, limit - root.val);
+
+                  return root.left || root.right? root : null;
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(\log{n})\).
           </p>
         </div>
       </div>
