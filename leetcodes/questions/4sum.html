@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>4Sum</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            18. 4Sum
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given an array nums of n integers and an integer target, are there elements a, b, c, and d in nums such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
+            </p>
+            <p class="problem-text section-text">
+              Note:
+            </p>
+            <p class="section-text">
+              The solution set must not contain duplicate quadruplets.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Given array nums = [1, 0, -1, 0, -2, 2], and target = 0.
+
+A solution set is:
+[
+  [-1,  0, 0, 1],
+  [-2, -1, 1, 2],
+  [-2,  0, 0, 2]
+]
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Approach 1 -->
+          <h2 class="section-text approach-title">Approach 1: Brute Force</h2>
+          <p class="section-text">
+            Sort the array first to allow duplication check. Create 4 nested
+            loops to generate all non-duplicated quadruplets and validate if
+            their sum equals to target. If it is then add it the result set.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var fourSum = function(nums, target) {
+                  let result = [];
+                  nums.sort((a, b) => a - b);
+
+                  for (let i = 0; i < nums.length - 3; ++i) {
+                      if (nums[i] === nums[i - 1] && i > 0) continue;
+                      for (let j = i + 1; j < nums.length - 2; ++j) {
+                          if (nums[j] === nums[j - 1] && j > i + 1) continue;
+                          for (let k = j + 1; k < nums.length - 1; ++k) {
+                              if (nums[k] === nums[k - 1] && k > j + 1) continue;
+                              for (let l = k + 1; l < nums.length - 0; ++l) {
+                                  if (nums[l] === nums[l - 1] && l > k + 1) continue;
+                                  if (nums[i] + nums[j] + nums[k] + nums[l] === target) {
+                                      result.push([nums[i], nums[j], nums[k], nums[l]]);
+                                  }
+                              }
+                          }
+                      }
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^4)\), Space: \(O(1)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
