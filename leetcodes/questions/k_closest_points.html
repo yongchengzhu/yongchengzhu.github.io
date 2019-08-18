@@ -99,6 +99,44 @@ We only want the closest K = 1 points from the origin, so the answer is just [[-
           <p class="section-text">
             Runtime: \(O(n\log{k})\), Space: \(O(k)\).
           </p>
+          <!-- Approach 2 -->
+          <h2 class="section-text approach-title">Approach 2: Sort</h2>
+          <p class="section-text">
+            This is a two-pass algorithm. First, calculate all the distances
+            of the points to the origin and store them in an array. Then,
+            sort the array. On the second pass, for all the points that are
+            less than or equal to the \(k-1\) distance in the sorted array,
+            push those points into the result set until there are \(k\) points.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var kClosest = function(points, K) {
+                  if (K >= points.length) return points;
+
+                  let dists  = [];
+                  let result = [];
+
+                  for (let i = 0; i < points.length; ++i) {
+                      const dist = Math.sqrt(Math.pow(points[i][0], 2) + Math.pow(points[i][1], 2));
+                      dists.push(dist);
+                  }
+
+                  dists.sort((a, b) => a - b);
+
+                  const kthDist = dists[K - 1];
+
+                  for (let i = 0; i < points.length && result.length < K; ++i) {
+                      const dist = Math.sqrt(Math.pow(points[i][0], 2) + Math.pow(points[i][1], 2));
+                      if (dist <= kthDist) result.push(points[i]);
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n\log{n})\), Space: \(O(n)\).
+          </p>
         </div>
       </div>
     </div>
