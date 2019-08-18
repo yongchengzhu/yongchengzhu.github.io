@@ -92,6 +92,47 @@ A solution set is:
           <p class="section-text">
             Runtime: \(O(n^4)\), Space: \(O(1)\).
           </p>
+          <!-- Approach 2: Two-Pointers -->
+          <h2 class="section-text approach-title">
+            Approach 2: Two-pointers
+          </h2>
+          <p class="section-text">
+            For calculating 2Sum in a sorted array, we can achieve linear runtime by
+            using two-pointers. The target for 2Sum is \(n_3 + n_4 = target - n_1 - n_2\).
+            Hence, if we can find such \(n_3, n_4\) then we have found a quadruplet
+            that sums up to target. The algorithm for 2Sum can be found <a href="./two_sum_ii.html">here</a>.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var fourSum = function(nums, target) {
+                  let result = [];
+
+                  nums.sort((a, b) => a - b);
+
+                  for (let i = 0; i < nums.length - 3; ++i) {
+                      if (i > 0 && nums[i] === nums[i - 1]) continue;
+                      for (let j = i + 1; j < nums.length - 2; ++j) {
+                          if (j > i + 1 && nums[j] === nums[j - 1]) continue;
+                          for (let left = j + 1, right = nums.length - 1; left < right; ) {
+                              if      (nums[left] + nums[right] < target - nums[i] - nums[j]) left++;
+                              else if (nums[left] + nums[right] > target - nums[i] - nums[j]) right--;
+                              else {
+                                  result.push([nums[i], nums[j], nums[left], nums[right]]);
+                                  while (nums[left]  === nums[left  + 1] && left < right) left++;
+                                  while (nums[right] === nums[right - 1] && left < right) right--;
+                                  left++; right--;
+                              }
+                          }
+                      }
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^3)\), Space: \(O(1)\).
+          </p>
         </div>
       </div>
     </div>
