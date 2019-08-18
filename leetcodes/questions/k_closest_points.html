@@ -137,6 +137,58 @@ We only want the closest K = 1 points from the origin, so the answer is just [[-
           <p class="section-text">
             Runtime: \(O(n\log{n})\), Space: \(O(n)\).
           </p>
+          <!-- Approach 3 -->
+          <h2 class="section-text approach-title">
+            Approach 3: Quick Select
+          </h2>
+          <p class="section-text">
+            If we find the \(k^{th}\) closest point to the origin such that all
+            the points before this point has closer distance to the origin,
+            then return the subarray from the index range \([0, K]\).
+          </p>
+          <p class="section-text">
+            The algorithm for Quick Select is very simple. First pick a pivot
+            from the given array and swap all the points with closer distance
+            to the origin to the left of the pivot. Then, check the pivot against
+            \(k - 1\). If pivot is smaller then check the right subarray, else check
+            the left subarray recursively until pivot equals \(k - 1\).
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var kClosest = function(points, K) {
+                  return quickSelect(points, K, 0, points.length - 1);
+              };
+
+              var quickSelect = function(points, K, start, end) {
+                  if (start > end) return [];
+
+                  const pivot = pivotHelper(points, start, end);
+                  if (pivot === K - 1) return points.slice(0, K);
+
+                  if (pivot > K - 1) return quickSelect(points, K, start, pivot - 1);
+                  else               return quickSelect(points, K, pivot + 1, end);
+              }
+
+              var pivotHelper = function (points, start, end) {
+                  let swapIdx = start + 1;
+                  for (let i = start + 1; i <= end; ++i) {
+                      if (getDist(points[i]) < getDist(points[start])) {
+                          [points[swapIdx], points[i]] = [points[i], points[swapIdx]];
+                          swapIdx++;
+                      }
+                  }
+                  [points[start], points[swapIdx - 1]] = [points[swapIdx - 1], points[start]];
+                  return swapIdx - 1;
+              }
+
+              var getDist = function(point) {
+                  return Math.sqrt(Math.pow(point[0], 2) + Math.pow(point[1], 2));
+              }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(n)\).
+          </p>
         </div>
       </div>
     </div>
