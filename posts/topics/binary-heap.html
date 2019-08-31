@@ -33,13 +33,14 @@
             methods: \(insert()\) and \(extract()\). This will be a Min Heap.
           </p>
 
+          <!-- Step 1: Constructor -->
+          <h2 class="section-text approach-title">Step 1: Constructor</h2>
           <p class="section-text">
-            To implement any class, we need a constructor. When a new Heap object
-            is instantiated, an empty Heap should be created (as an array in this
-            case).
+            When a new Heap object is instantiated, an empty Heap should be created
+            (as an array in this case).
           </p>
 
-          <pre>
+          <pre class="line-numbers">
             <code class="language-javascript">
               var MinHeap = class MinHeap {
                   constructor() {
@@ -49,20 +50,23 @@
             </code>
           </pre>
 
+          <!-- Step 2: Insert -->
+          <h2 class="section-text approach-title">Step 2: Insert</h2>
           <p class="section-text">
-            Next, let's implement the logic for \(insert()\). The idea is that,
-            whenever a new element is inserted into the Heap, first it's pushed
-            to the end of the Heap and then it repeatedly compares itself with
-            the parent. If it's smaller than the parent, then it swaps with the
-            the parent and repeats until parent node is reached.
+            A min-heap should allow element insertions while keeping an order such
+            that the parent elements are less than children elements.
+          </p>
+          <p class="section-text">
+            Whenever a new element is inserted into the Heap, first push it
+            to the end of the Heap and then it repeatedly compare itself with
+            its parent. If it's smaller than its parent, then swap it with its
+            the parent and repeat until root node is reached.
           </p>
 
-          <pre>
+          <pre class="line-numbers">
             <code class="language-javascript">
               var MinHeap = class MinHeap {
-                  constructor() {
-                      this.heap = [];
-                  }
+                  // Constructor above here...
 
                   insert(entry) {
                       this.heap.push(entry);
@@ -85,44 +89,22 @@
             </code>
           </pre>
 
+          <!-- Step 3: Extract -->
+          <h2 class="section-text approach-title">Step 3: Extract</h2>
           <p class="section-text">
             The \(extract()\) method needs a bit more work, but it's not too bad.
-            Basically, whenever we extract an element from the Heap, first, it
-            removes the root element, then the last element becomes the root element.
-            Now, repeated compare the root element with it's left and right children.
-            If the root element is smaller than both children then the loop ends.
-            Otherwise, swap the root element with the smallest children element
-            and repeat until the bottom of the Heap.
+            Whenever the Heap extracts an element, the last element in the Heap
+            removes itself and overwrites the root element. Now, this element
+            at the root needs to go into the correct place. So repeatedly compare
+            itself with its children. If it's smaller than both children then
+            it's already in the correct place. Otherwise, swap itself with the
+            smaller of both children until it reach the bottom of the heap.
           </p>
 
-          <p class="section-text">
-            Below is the complete code for my Binary Heap implementation.
-          </p>
-
-          <pre>
+          <pre class="line-numbers">
             <code class="language-javascript">
               var MinHeap = class MinHeap {
-                  constructor() {
-                      this.heap = [];
-                  }
-
-                  insert(entry) {
-                      this.heap.push(entry);
-
-                      const length  = this.heap.length;
-                      let   current = length - 1;
-                      let   parent  = Math.floor((current - 1) / 2);
-
-                      while (current > 0) {
-                          if (this.heap[current] < this.heap[parent]) {
-                              this.swap(current, parent);
-                              current = parent;
-                              parent  = Math.floor((current - 1) / 2);
-                          } else {
-                              return;
-                          }
-                      }
-                  }
+                  // Constructor and insert() above here...
 
                   extract() {
                       if (!this.heap.length) return null;
