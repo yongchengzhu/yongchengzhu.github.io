@@ -32,18 +32,21 @@
             and to tell it specifically which key inside the object I want to
             use to compare.
           </p>
+
+          <h2 class="section-text approach-title">Step 1: Modify Constructor</h2>
           <p class="section-text">
             To improve my implementation, I need to add an option in the
             parameters of the constructor. By default, if no option is specified,
-            the Heap will be default be a Min Heap. If we want to use a Max
+            the Heap will be default to a Min Heap. If we want to use a Max
             heap, we would need to specify an option for that as an argument
             when we create the Heap. If we want to insert objects instead of numbers,
             we would also need to specify that in the option. To achieve this,
             we can create an optional comparison parameter in the constructor.
           </p>
 
-          <pre>
+          <pre class="line-numbers">
             <code class="language-javascript">
+              // This is a partial code.
               constructor(compare = (a, b) => a - b) {
                       this.heap = [];
                       this.compare = compare;
@@ -51,17 +54,18 @@
             </code>
           </pre>
 
+          <h2 class="section-text approach-title">Step 2: Modify Insert</h2>
           <p class="section-text">
             The idea is that, if \(a\) is greater than \(b\), then \(a-b>0\).
-            Meaning, we can use this logic for our \(insert()\) method, such that
-            for the Min Heap logic, if the parent node is greater than the current
-            node we inserted, then swap. Of course, if we want this to be a Max
-            Heap, then we would need to provide the following function in the
-            constructor: <code>(a, b) => b - a</code>.
+            Meaning, we can use this logic for the \(insert()\) method. If the
+            parent element is greater than the current element that just got inserted, then swap.
+            Of course, if we want this to be a Max Heap, then we would need to
+            provide the following function in the constructor: <code>(a, b) => b - a</code>.
           </p>
 
-          <pre>
+          <pre class="line-numbers">
             <code class="language-javascript">
+              // This is a partial code.
               insert(entry) {
                   this.heap.push(entry);
 
@@ -82,14 +86,16 @@
             </code>
           </pre>
 
+          <h2 class="section-text approach-title">Step 3: Modify Extract</h2>
           <p class="section-text">
             Similarly, we can incorporate this logic inside of the \(extract()\)
             method. There's only two places where we need to make changes. I've
             pointed out the locations in the code with comments.
           </p>
 
-          <pre>
+          <pre class="line-numbers">
             <code class="language-javascript">
+              // This is a partial code.
               extract() {
                   if (!this.heap.length) return null;
 
@@ -131,13 +137,91 @@
             </code>
           </pre>
 
+          <h2 class="section-text approach-title">Final Code</h2>
           <p class="section-text">
-            Now, our implementation is more general. It can support both Min
-            and Max Heap. Also, when we want to insert an object like:
-            <code>{ name: "A Name", val: 123 }</code> we can easily tell the heap
-            what to compare in the constructor by doing the following:
-            <code>let MinHeap = new PriorityQueue((a, b) => a.val - b.val)</code>.
+            This is the final code that I came up with, with additional helper
+            functions for more convienience.
           </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var PriorityQueue = class PriorityQueue {
+                  constructor(compare = (a, b) => a - b) {
+                      this.heap = [];
+                      this.compare = compare;
+                  }
+
+                  insert(entry) {
+                      this.heap.push(entry);
+
+                      const length  = this.heap.length;
+                      let   current = length - 1;
+                      let   parent  = Math.floor((current - 1) / 2);
+
+                      while (current > 0) {
+                          if (this.compare(this.heap[parent], this.heap[current]) > 0) {
+                              this.swap(current, parent);
+                              current = parent;
+                              parent  = Math.floor((current - 1) / 2);
+                          } else {
+                              return;
+                          }
+                      }
+                  }
+
+                  extract() {
+                      if (!this.heap.length) return null;
+
+                      const result  = this.heap[0];
+                      let   current = 0;
+                      let   left    = current * 2 + 1;
+                      let   right   = current * 2 + 2;
+
+                      this.heap[current] = this.heap[this.heap.length - 1];
+                      this.heap.length--;
+
+                      const length = this.heap.length;
+
+                      while (true) {
+                          let smallest = Infinity;
+
+                          if (left > length - 1 && right > length - 1) {
+                              break;
+                          }
+
+                          if (left > length - 1 || right > length - 1) {
+                              smallest = left > length - 1? right : left;
+                          } else {
+                              smallest = this.compare(this.heap[right], this.heap[left]) > 0? left : right;
+                          }
+
+                          if (this.compare(this.heap[smallest], this.heap[current]) > 0) break;
+
+                          this.swap(current, smallest);
+
+                          current = smallest;
+                          left    = current * 2 + 1;
+                          right   = current * 2 + 2;
+                      }
+
+                      return result;
+                  }
+
+                  peek() {
+                      return this.heap[0];
+                  }
+
+                  size() {
+                      return this.heap.length;
+                  }
+
+                  swap(entryA, entryB) {
+                      let temp = this.heap[entryA];
+                      this.heap[entryA] = this.heap[entryB];
+                      this.heap[entryB] = temp;
+                  }
+              }
+            </code>
+          </pre>
         </div>
       </div>
     </div>
