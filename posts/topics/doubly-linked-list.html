@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Implementing Doubly Linked List with Javascript</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <!-- Header -->
+          <h1 class="section-text section-header" style="padding-bottom: 0">
+            Implementing Doubly Linked List with JS
+          </h1>
+          <p class="section-text project-date" style="padding-bottom: 2rem">
+            Posted by Yongcheng on July 22, 2019
+          </p>
+
+          <!-- Contents -->
+          <p class="section-text">
+            Doubly Linked List is a rarely used Data Structure. However,
+            I found the need to understand this Data Structure for the purpose
+            of implementing a LRU Cache from the leetcode question.
+          </p>
+
+          <!-- Step 1: Node Class -->
+          <h2 class="section-text approach-title">Step 1: Node Class</h2>
+          <p class="section-text">
+            The Node class has three important variables, the value and two
+            pointers (forward and backward).
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var Node = class Node {
+                  constructor(val) {
+                      this.val = val;
+                      this.prev = null;
+                      this.next = null;
+                  }
+              }
+            </code>
+          </pre>
+
+          <!-- Step 2: Double Linked List Class -->
+          <h2 class="secion-text approach-title">Step 2: Doubly Linked List Class</h2>
+          <p class="section-text">
+            The Doubly Linked List class, unlike Singly Linked List, it has
+            a head <em>AND</em> a tail pointer.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var DoublyLinkedList = class DoublyLinkedList {
+                  constructor() {
+                      this.length = 0;
+                      this.head   = null;
+                      this.tail   = null;
+                  }
+              }
+            </code>
+          </pre>
+
+          <!-- Step 3: Push -->
+          <h2 class="section-text approach-title">Step 3: Push Method</h2>
+          <p class="section-text">
+            The push method has one edge case to consider. If the head or the
+            tail is not defined, then the new node becomes both the head <em>AND</em>
+            the tail. Otherwise, the new node becomes the new tail.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var DoublyLinkedList = class DoublyLinkedList {
+                  // [+] constructor() { ... }
+
+                  push(val) {
+                      const current = new Node(val);
+
+                      if (!this.head && !this.tail) {
+                          this.head = this.tail = current;
+                      } else {
+                          this.tail.next = current;
+                          this.tail.next.prev = this.tail;
+                          this.tail = this.tail.next;
+                      }
+
+                      this.length++;
+                      return;
+                  }
+              }
+            </code>
+          </pre>
+
+          <!-- Step 4: Pop -->
+          <h2 class="section-text approach-title">Step 4: Pop Method</h2>
+          <p class="section-text">
+            There are two edge cases to consider. If the Linked List is empty,
+            then throw an error. If the Linked List has one node, then set
+            the node the null. Otherwise, set tail to be the second last node
+            and remove the last node.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var DoublyLinkedList = class DoublyLinkedList {
+                  // [+] constructor() { ... }
+                  // [+] push(val) { ... }
+
+                  pop() {
+                      if (!this.length) throw new Error('Cannot pop: Linked List is empty!');
+                      if (this.head === this.tail) {
+                          this.head = this.tail = null;
+                      } else {
+                          this.tail.prev.next = null;
+                          this.tail = this.tail.prev;
+                      }
+
+                      this.length--;
+                      return;
+                  }
+              }
+            </code>
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-posts.html');
+    </script>
+  </body>
+</html>
