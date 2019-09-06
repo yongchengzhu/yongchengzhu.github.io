@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>LRU Cache</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            146. LRU Cache
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.
+            </p>
+            <p class="section-text problem-text">
+              \(get(key)\) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+            </p>
+            <p class="section-text problem-text">
+              \(put(key, value)\) - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+            </p>
+            <p class="section-text problem-text">
+              The cache is initialized with a positive capacity.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+LRUCache cache = new LRUCache( 2 /* capacity */ );
+
+cache.put(1, 1);
+cache.put(2, 2);
+cache.get(1);       // returns 1
+cache.put(3, 3);    // evicts key 2
+cache.get(2);       // returns -1 (not found)
+cache.put(4, 4);    // evicts key 1
+cache.get(1);       // returns -1 (not found)
+cache.get(3);       // returns 3
+cache.get(4);       // returns 4
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Approach 1 -->
+          <h2 class="section-text approach-title">Approach 1: DLL & Hashtable</h2>
+          <p class="section-text">
+            Working on this problem...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
