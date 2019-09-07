@@ -65,8 +65,160 @@ cache.get(4);       // returns 4
           <!-- Approach 1 -->
           <h2 class="section-text approach-title">Approach 1: DLL & Hashtable</h2>
           <p class="section-text">
-            Working on this problem...
+            The idea is to create a data structure that combines both a Hashtable
+            and a Doubly Linked List. For the Hashtable, each property is stored
+            as \(key: node\). The \(node\) is a node for the DLL. It's just an
+            object with the following properties: key, value, prev, next. The
+            algorithm is explained in the commented sections of the code.
           </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var LRUCache = class LRUCache {
+                  constructor(capacity) {
+                      this.table = {};
+                      this.head = null;
+                      this.tail = null;
+                      this.size = 0;
+                      this.capacity = capacity;
+                  }
+
+                  get(key) {
+                      // Cases:
+                      //  1. The 'key' doesn't exist in the hashtable.
+                      //     - Return -1.
+                      //  2. The 'key' exist in the hashtable.
+                      //     - Delete the current node from DLL.
+                      //     - Push the current into DLL.
+
+                      if (!this.table[key]) return -1;
+                      else {
+                          this.deleteNode(key);
+                          this.pushNode(key);
+                          return this.table[key].val;
+                      }
+                  }
+
+                  put(key, value) {
+                      // Cases A:
+                      //  1. Key already exist inside the hashtable.
+                      //     - Delete the current node from DLL.
+                      //     - Create new node with key and value.
+                      //     - Assign new node as the value to the existing key in the hashtable.
+                      //     - Push new node into DLL.
+                      //
+                      // Cases B:
+                      //  1. Current size is less than capacity.
+                      //     - Create new node with key and value.
+                      //     - Insert new property into hashtable with key:newNode.
+                      //     - Push new node into DLL.
+                      //  2. Current size equals to capacity.
+                      //     - Delete head node from DLL.
+                      //     - Delete the property with key from head node in hashtable.
+                      //     - Create new node with key and value.
+                      //     - Insert new property into hashtable with key:newNode.
+                      //     - Push new node into DLL.
+
+                      const newNode = { key: key, val: value };
+
+                      if (this.table[key]) {
+                          this.deleteNode(key);
+                          this.table[key] = newNode;
+                          this.pushNode(key);
+                      } else {
+                          if (this.size < this.capacity) {
+                              this.table[key] = newNode;
+                              this.pushNode(key);
+                              this.size++;
+                          } else {
+                              const LRUKey = this.head.key;
+                              this.removeHead();
+                              delete this.table[LRUKey];
+                              this.table[key] = newNode;
+                              this.pushNode(key);
+                          }
+                      }
+                  }
+
+                  //
+                  // Doubly-Linked List Methods
+                  //
+
+                  pushNode(key) {
+                      // Cases:
+                      //  1. DLL is empty.
+                      //     - Set both head and tail to be new node.
+                      //  2. DLL has atleast one node.
+                      //     - Connect new node to the tail.
+                      //     - Set tail to point to new node.
+
+                      const current = this.table[key];
+
+                      if (!this.head) this.head = this.tail = current;
+                      else {
+                          this.tail.next = current;
+                          this.tail.next.prev = this.tail;
+                          this.tail = this.tail.next;
+                      }
+                  }
+
+                  deleteNode(key) {
+                      // Cases:
+                      //  1. Both head and tail point to current node.
+                      //     - Set both head and tail to null.
+                      //  2. Current node is head.
+                      //     - Call removeHead().
+                      //  3. Current node is tail.
+                      //     - Call removeTail().
+                      //  4. Current node is between head and tail.
+                      //     - Connect the node before this to the node after this.
+
+                      const current = this.table[key];
+
+                      if (current === this.head === this.tail) this.head = this.tail = null;
+                      else if (current === this.head) this.removeHead();
+                      else if (current === this.tail) this.removeTail();
+                      else {
+                          if(current.prev) current.prev.next = current.next;
+                          if(current.next) current.next.prev = current.prev;
+                          current.next = null;
+                          current.prev = null;
+                      }
+                  }
+
+                  removeHead() {
+                      // Cases:
+                      //  1. There's only one node in the DLL.
+                      //    - Set head and tail to null.
+                      //  2. There are more than one node in the DLL.
+                      //    - Set head to head.next disconnect current head with the previous node.
+
+                      if (this.head === this.tail) this.head = this.tail = null;
+                      else {
+                          const newHead = this.head.next;
+                          this.head.next = null;
+                          newHead.prev = null;
+                          this.head = newHead;
+                      }
+                  }
+
+                  removeTail() {
+                      // Cases:
+                      //  1. There's only one node in the DLL.
+                      //    - Set head and tail to null.
+                      //  2. There are more than one node in the DLL.
+                      //    - Set tail to tail.prev and disconnect the current tail with the next node.
+
+                      if (this.head === this.tail) this.head = this.tail = null;
+                      else {
+                          const newTail = this.tail.prev;
+                          this.tail.prev = null;
+                          newTail.next = null;
+                          this.tail = newTail;
+                      }
+                  }
+              };
+            </code>
+          </pre>
         </div>
       </div>
     </div>
