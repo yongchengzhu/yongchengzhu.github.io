@@ -96,6 +96,46 @@ Therefore, return 3 as the starting index.
           <p class="section-text">
             Runtime: \(O(n^2)\), Space: \(O(1)\).
           </p>
+          <!-- Approach 2 -->
+          <h2 class="section-text approach-title">Approach 2: Brute Force + Optimization</h2>
+          <p class="section-text">
+            The brute force solution can be improved by further reducing the
+            amount of starting stations we need to check. If the starting
+            station is A and the car stopped at station B, then no starting stations
+            between A and B can get past station B. Hence, the next starting station
+            to check is B.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var canCompleteCircuit = function(gas, cost) {
+                  for (let i = 0; i < gas.length; ++i) {
+                      if (gas[i] < cost[i]) continue;
+
+                      let tank = 0 + gas[i] - cost[i];
+                      let circuit = true;
+
+                      for (let j = i + 1; j % gas.length !== i; ++j) {
+                          tank = tank + gas[j % gas.length] - cost[j % cost.length];
+                          if (tank < 0) {
+                              if (j <= gas.length - 1) {
+                                  i = j - 1;
+                                  circuit = false;
+                                  break;
+                              } else return -1;
+                          }
+                      }
+
+                      if (circuit) return i;
+                  }
+
+                  return -1;
+              };
+            </code>
+          </pre>
+
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(1)\).
+          </p>
         </div>
       </div>
     </div>
