@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Jump Game</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            55. Jump Game
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given an array of non-negative integers, you are initially positioned at the first index of the array.
+            </p>
+            <p class="section-text problem-text">
+              Each element in the array represents your maximum jump length at that position.
+            </p>
+            <p class="section-text problem-text">
+              Determine if you are able to reach the last index.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: [2,3,1,1,4]
+Output: true
+Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Approach 1 -->
+          <h2 class="section-text approach-title">Approach 1: Brute Force (Time Limit Exceeded)</h2>
+          <p class="section-text">
+            Brainlessly try all possibilities. For every number \(k\) that we run into,
+            try to jump from \(1\) to \(k\) indexes ahead and repeat until
+            we reach the end of the array or reach a zero.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var canJump = function(nums) {
+                  return jump(nums, 0);
+              };
+
+              var jump = function(nums, idx) {
+                  if (idx >= nums.length - 1) return true;
+                  if (nums[idx] === 0) return false;
+
+                  for (let i = 1; i <= nums[idx]; ++i) {
+                      const result = jump(nums, idx + i);
+                      if (result) return result;
+                  }
+
+                  return false;
+              }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n^k)\), Space: \(O(n)\).
+          </p>
+          
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
