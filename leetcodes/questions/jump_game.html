@@ -78,9 +78,38 @@ Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
             </code>
           </pre>
           <p class="section-text">
-            Runtime: \(O(n^k)\), Space: \(O(n)\).
+            Runtime: ?, Space: \(O(n)\).
           </p>
-          
+          <!-- Approach 1.1 -->
+          <h2 class="secion-text approach-title">Greedy Brute Force</h2>
+          <p class="section-text">
+            The previous brute force algorithm is naive, because it is making
+            small jumps at first and gradually get bigger which will waste
+            a lot more time. Instead, let's try to take a greedy approach, which
+            is to make max jump at every index and backtrack.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var canJump = function(nums) {
+                  return dfs(nums, 0);
+              };
+
+              var dfs = function(nums, idx) {
+                  if (idx >= nums.length - 1) return true;
+                  if (nums[idx] === 0) return false;
+
+                  for (; nums[idx] > 0; --nums[idx]) {
+                      const jump = dfs(nums, idx + nums[idx]);
+                      if (jump) return true;
+                  }
+
+                  return false;
+              }
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: ?, Space: \(O(n)\).
+          </p>
         </div>
       </div>
     </div>
