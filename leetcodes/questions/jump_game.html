@@ -110,6 +110,42 @@ Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
           <p class="section-text">
             Runtime: ?, Space: \(O(n)\).
           </p>
+          <!-- Approach 2 -->
+          <h2 class="section-text approach-title">Approach 2: Farthest Index & Decrement</h2>
+          <p class="section-text">
+            This problem becomes rather easy by omitting the need to backtrack.
+            First, attempt to jump as far as possible by making the farthest jumps
+            at each index. If the next jump cannot surpass the farthest jump index,
+            then decrement and try again. (By decrementing, we are making sure
+            we don't skip over any numbers.) If we reached index 0 and still cannot
+            jump across the farthest index, then return false.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var canJump = function(nums) {
+                  let farthestIdx = 0;
+                  let currentIdx = 0;
+
+                  while (true) {
+                      if (currentIdx >= nums.length - 1) return true;
+                      if (currentIdx === 0 && nums[currentIdx] === 0) break;
+
+                      if (nums[currentIdx] + currentIdx > farthestIdx) {
+                          currentIdx += nums[currentIdx];
+                          farthestIdx = Math.max(farthestIdx, currentIdx);
+                      } else {
+                          nums[currentIdx] = 0;
+                          if(currentIdx > 0) currentIdx--;
+                      }
+                  }
+
+                  return false;
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(1)\).
+          </p>
         </div>
       </div>
     </div>
