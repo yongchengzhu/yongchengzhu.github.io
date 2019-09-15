@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Interval List Intersections</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/prism.css">
+  </head>
+  <body>
+    <div id="navbar-leetcode"></div>
+
+    <div class="container post-container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="section-text section-header">
+            986. Interval List Intersections
+          </h1>
+        </div>
+      </div>
+      <!-- Problem -->
+      <div class="row">
+        <div class="col-12">
+          <div class="problem">
+            <p class="section-text problem-text">
+              Given two lists of closed intervals, each list of intervals is pairwise disjoint and in sorted order.
+            </p>
+            <p class="section-text problem-text">
+              Return the intersection of these two interval lists.
+            </p>
+            <p class="section-text problem-text">
+              <span class="problem-header">Example:</span>
+              <div class="example">
+                <img src="https://assets.leetcode.com/uploads/2019/01/30/interval1.png" style="width: 470px; height: auto;">
+                <div class="example-item">
+                  <div class="pre-text">
+Input: A = [[0,2],[5,10],[13,23],[24,25]], B = [[1,5],[8,12],[15,24],[25,26]]
+Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
+Reminder: The inputs and the desired output are lists of Interval objects, and not arrays or lists.
+                  </div>
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution Section -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Approach 1 -->
+          <h2 class="section-text approach-title">Approach 1: Two Pointers</h2>
+          <p class="section-text">
+            The intuitive algorithm I came up with is simple. First, create
+            two pointers, one for each array. Each array contains some number
+            of closed-intervals. Start a loop that runs as long as both pointers
+            are not out of boundary. At each iteration, find out which pointer
+            is pointing to the interval with the greater starting index. For that
+            index, check if it's in-between the interval of the other array.
+            If it is then there is an intersection otherwise there is no intersection.
+          </p>
+          <pre class="line-numbers">
+            <code class="language-javascript">
+              var intervalIntersection = function(A, B) {
+                  let result = [];
+                  let i = 0;
+                  let j = 0;
+
+                  while (i < A.length && j < B.length) {
+                      if (A[i][0] >= B[j][0]) {
+                          if (A[i][0] >= B[j][0] && A[i][0] <= B[j][1]) {
+                              A[i][1] <= B[j][1]? (result.push([A[i][0], A[i][1]]), i++):
+                                                  (result.push([A[i][0], B[j][1]]), j++);
+                          } else j++;
+                      } else {
+                          if (B[j][0] >= A[i][0] && B[j][0] <= A[i][1]) {
+                              A[i][1] <= B[j][1]? (result.push([B[j][0], A[i][1]]), i++):
+                                                  (result.push([B[j][0], B[j][1]]), j++);
+                          } else i++;
+                      }
+                  }
+
+                  return result;
+              };
+            </code>
+          </pre>
+          <p class="section-text">
+            Runtime: \(O(n)\), Space: \(O(1)\).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../../js/prism.js"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <script>
+      $('#navbar-leetcode').load('../../components/navbar-leetcode.html');
+    </script>
+  </body>
+</html>
